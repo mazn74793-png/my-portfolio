@@ -327,16 +327,7 @@ footer{border-top:1px solid var(--border);padding:3rem 4rem;display:flex;justify
   <div class="flogo">MZN</div>
 </footer>
 
-<!-- LOGIN -->
-<div id="login-ov">
-  <div class="lbox">
-    <div class="ltitle">⚡ لوحة التحكم</div>
-    <div class="lsub">ADMIN ACCESS ONLY</div>
-    <input type="password" class="linput" id="lpwd" placeholder="كلمة السر" autocomplete="off">
-    <button class="lbtn" onclick="tryLogin()">دخول</button>
-    <button class="lcancel" onclick="document.getElementById('login-ov').classList.remove('open')">إلغاء</button>
-  </div>
-</div>
+<!-- login removed — password is the URL key -->
 
 <!-- ADMIN -->
 <div id="adm-ov">
@@ -572,23 +563,15 @@ function renderContact(){
 /* ── ADMIN LOGIN ── */
 function checkAdmin(){
   const p=new URLSearchParams(location.search);
-  if(p.has('admin')){
-    document.getElementById('login-ov').classList.add('open');
-    setTimeout(()=>document.getElementById('lpwd').focus(),300);
-    history.replaceState({},document.title,location.pathname);
+  // كل مفتاح في الـ URL بيتحقق — لو طابق الباسورد يفتح الأدمن مباشرة
+  for(const [key] of p){
+    if(key===PASS){
+      history.replaceState({},document.title,location.pathname);
+      openAdmin();
+      return;
+    }
   }
 }
-function tryLogin(){
-  if(document.getElementById('lpwd').value===PASS){
-    document.getElementById('login-ov').classList.remove('open');
-    openAdmin();
-  } else {
-    const i=document.getElementById('lpwd');
-    i.classList.add('err'); i.value='';
-    setTimeout(()=>i.classList.remove('err'),500);
-  }
-}
-document.getElementById('lpwd').addEventListener('keydown',e=>{ if(e.key==='Enter') tryLogin(); });
 
 function openAdmin(){
   document.getElementById('adm-ov').classList.add('open');
