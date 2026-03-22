@@ -44,8 +44,8 @@ nav.scrolled{background:rgba(4,4,10,.85);backdrop-filter:blur(20px);border-botto
 .nav-links a{color:var(--muted);text-decoration:none;font-size:.85rem;letter-spacing:2px;text-transform:uppercase;transition:color .3s;font-family:'Space Mono',monospace}
 .nav-links a:hover{color:var(--cyan)}
 /* HERO */
-#hero{position:relative;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;overflow:hidden}
-#hero-canvas{position:absolute;inset:0;z-index:0}
+#hero{position:relative;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+#hero-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.55}
 .hero-content{position:relative;z-index:2;max-width:900px;padding:0 2rem}
 .hero-eyebrow{font-family:'Space Mono',monospace;font-size:.75rem;letter-spacing:6px;color:var(--cyan);text-transform:uppercase;margin-bottom:1.5rem;opacity:0;animation:fadeUp 1s .3s ease forwards}
 .hero-name{font-family:'Cinzel',serif;font-size:clamp(4rem,10vw,9rem);font-weight:900;line-height:.9;letter-spacing:-2px;background:linear-gradient(135deg,#fff 0%,var(--cyan) 50%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;opacity:0;animation:fadeUp 1s .6s ease forwards}
@@ -60,7 +60,7 @@ nav.scrolled{background:rgba(4,4,10,.85);backdrop-filter:blur(20px);border-botto
 .scroll-hint span{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:3px;color:var(--muted)}
 .scroll-line{width:1px;height:60px;background:linear-gradient(to bottom,var(--cyan),transparent);animation:pulse 2s ease-in-out infinite}
 /* SECTIONS */
-section{padding:8rem 4rem;max-width:1300px;margin:0 auto}
+section{padding:8rem 4rem;max-width:1300px;margin:0 auto;position:relative;z-index:2}
 .slabel{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:5px;color:var(--cyan);text-transform:uppercase;margin-bottom:.5rem}
 .stitle{font-family:'Cinzel',serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:700;line-height:1.1;margin-bottom:1rem}
 .stitle em{font-style:normal;background:var(--grad-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -70,11 +70,11 @@ section{padding:8rem 4rem;max-width:1300px;margin:0 auto}
 .about-text p{color:var(--muted);line-height:2;font-size:1rem;margin-bottom:1.5rem}
 .about-text p strong{color:var(--white)}
 .astats{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2.5rem}
-.astat{border:1px solid var(--border);padding:1.5rem;background:var(--surface);position:relative;overflow:hidden}
+.astat{border:1px solid var(--border);padding:1.5rem;background:rgba(13,13,31,0.7);position:relative;overflow:hidden;backdrop-filter:blur(4px)}
 .astat::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--grad)}
 .astat-n{font-family:'Cinzel',serif;font-size:2.5rem;font-weight:900;color:var(--cyan)}
 .astat-l{font-size:.75rem;color:var(--muted);margin-top:.3rem}
-.aframe{width:340px;height:400px;border:1px solid var(--border);background:var(--surface);position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:1rem;overflow:hidden}
+.aframe{width:340px;height:400px;border:1px solid var(--border);background:rgba(13,13,31,0.7);backdrop-filter:blur(6px);position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:1rem;overflow:hidden}
 .aframe::before{content:'';position:absolute;inset:8px;border:1px solid rgba(0,212,255,.08)}
 .aframe::after{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--grad)}
 .avatar{font-family:'Cinzel',serif;font-size:4rem;font-weight:900;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -88,7 +88,7 @@ section{padding:8rem 4rem;max-width:1300px;margin:0 auto}
 .cbr{bottom:0;right:0;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold)}
 /* SKILLS */
 .sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem}
-.skcard{border:1px solid var(--border);background:var(--surface);padding:1.8rem 1.5rem;position:relative;overflow:hidden;transition:border-color .3s,transform .3s;cursor:default}
+.skcard{border:1px solid var(--border);background:rgba(13,13,31,0.7);padding:1.8rem 1.5rem;position:relative;overflow:hidden;transition:border-color .3s,transform .3s;cursor:default;backdrop-filter:blur(4px)}
 .skcard:hover{border-color:var(--cyan);transform:translateY(-4px)}
 .skcard::before{content:'';position:absolute;bottom:0;left:0;height:2px;background:var(--grad);transition:width .6s;width:0}
 .skcard:hover::before{width:100%}
@@ -100,7 +100,7 @@ section{padding:8rem 4rem;max-width:1300px;margin:0 auto}
 .sk-pct{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--muted);margin-top:.4rem}
 /* PROJECTS */
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:1.5rem}
-.pcard{border:1px solid var(--border);background:var(--surface);position:relative;overflow:hidden;transition:border-color .3s,transform .3s}
+.pcard{border:1px solid var(--border);background:rgba(13,13,31,0.7);position:relative;overflow:hidden;transition:border-color .3s,transform .3s;backdrop-filter:blur(4px)}
 .pcard:hover{border-color:rgba(0,212,255,.4);transform:translateY(-6px)}
 .pcard:hover .poverlay{opacity:1}
 .phead{padding:2rem 2rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
@@ -115,7 +115,7 @@ section{padding:8rem 4rem;max-width:1300px;margin:0 auto}
 .poverlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,212,255,.03),rgba(0,64,255,.06));pointer-events:none;opacity:0;transition:opacity .3s}
 /* CONTACT */
 #contact{max-width:800px}
-.cbox{border:1px solid var(--border);background:var(--surface);padding:4rem;position:relative}
+.cbox{border:1px solid var(--border);background:rgba(13,13,31,0.7);padding:4rem;position:relative;backdrop-filter:blur(4px)}
 .cbox::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--grad-gold)}
 .clinks{display:flex;flex-direction:column;gap:1.2rem;margin-top:2rem}
 .clink{display:flex;align-items:center;gap:1.5rem;color:var(--muted);text-decoration:none;font-size:.9rem;transition:color .2s;padding:.8rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
@@ -126,7 +126,7 @@ section{padding:8rem 4rem;max-width:1300px;margin:0 auto}
 .cnote{margin-top:2.5rem;padding:1.5rem;border:1px dashed rgba(255,208,96,.2);background:rgba(255,208,96,.03)}
 .cnote p{font-size:.85rem;color:var(--muted);line-height:1.8}
 .cnote strong{color:var(--gold)}
-footer{border-top:1px solid var(--border);padding:3rem 4rem;display:flex;justify-content:space-between;align-items:center}
+footer{border-top:1px solid var(--border);padding:3rem 4rem;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2}
 .fcopy{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--muted);letter-spacing:2px}
 .flogo{font-family:'Cinzel',serif;font-size:1rem;font-weight:900;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 /* LOGIN */
@@ -221,8 +221,8 @@ footer{border-top:1px solid var(--border);padding:3rem 4rem;display:flex;justify
   </ul>
 </nav>
 
+<canvas id="hero-canvas"></canvas>
 <section id="hero">
-  <canvas id="hero-canvas"></canvas>
   <div class="hero-content">
     <p class="hero-eyebrow" id="hero-eyebrow">◈ FULL STACK DEVELOPER ◈ CAIRO, EG ◈</p>
     <h1 class="hero-name" id="hero-name">MAZEN</h1>
