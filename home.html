@@ -542,9 +542,21 @@ async function save(key){
     D.about={p1:v('ea-p1'),p2:v('ea-p2'),stats:[1,2,3,4].map(i=>({n:v(`es${i}n`),l:v(`es${i}l`)})),tags:v('ea-tags').split(',').map(t=>t.trim()).filter(Boolean)};
     applyAbout();
   } else if(key==='skills'){
+    // collect latest values from inputs before saving
+    D.skills=Array.from(document.querySelectorAll('#skills-edit .srow')).map(row=>{
+      const inp=row.querySelectorAll('input');
+      return{icon:inp[0].value,name:inp[1].value,lv:parseInt(inp[2].value)||0};
+    });
     renderSkills();
   } else if(key==='contact'){
-    D.contact.note=v('ec-note'); renderContact();
+    // collect contact links from inputs before saving
+    D.contacts=Array.from(document.querySelectorAll('#cont-edit .srow')).map(row=>{
+      const inp=row.querySelectorAll('input');
+      return{icon:inp[0].value,label:inp[1].value,val:inp[2].value,href:inp[3].value};
+    });
+    D.contact.note=v('ec-note');
+    renderContact();
+    await sbSave('contacts');
   }
   await sbSave(key);
 }
