@@ -112,7 +112,7 @@ section{padding:8rem 4rem;max-width:1300px;margin:0 auto;position:relative;z-ind
 .pdesc{color:var(--muted);font-size:.9rem;line-height:1.8;margin-bottom:1.5rem}
 .ptech{display:flex;flex-wrap:wrap;gap:.5rem}
 .ttag{padding:.25rem .7rem;background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.15);font-family:'Space Mono',monospace;font-size:.65rem;color:var(--cyan);letter-spacing:1px}
-.poverlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,212,255,.03),rgba(0,64,255,.06));pointer-events:none;opacity:0;transition:opacity .3s}
+.poverlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,212,255,.03),rgba(0,64,255,.06));pointer-events:none;opacity:0;transition:opacity .3s}.plink-icon{font-size:1rem;color:var(--cyan);opacity:.6;transition:opacity .3s,transform .3s}.pcard:hover .plink-icon{opacity:1;transform:translate(2px,-2px)}
 /* CONTACT */
 #contact{max-width:800px}
 .cbox{border:1px solid var(--border);background:rgba(13,13,31,0.7);padding:4rem;position:relative;backdrop-filter:blur(4px)}
@@ -204,6 +204,40 @@ footer{border-top:1px solid var(--border);padding:3rem 4rem;display:flex;justify
   footer{flex-direction:column;gap:1rem;text-align:center}
   .g2{grid-template-columns:1fr}.nav-links{display:none}
 }
+
+/* ═══ NEW ADMIN PANEL ═══ */
+.adm-logo{width:36px;height:36px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.adm-layout{display:grid;grid-template-columns:180px 1fr;min-height:500px;max-height:calc(90vh - 80px)}
+.adm-nav{border-left:1px solid var(--border);padding:1rem 0;display:flex;flex-direction:column;gap:.25rem;background:rgba(0,0,0,.2)}
+.adm-navbtn{display:flex;align-items:center;gap:.8rem;padding:.9rem 1.5rem;background:transparent;border:none;color:var(--muted);font-family:'Cairo',sans-serif;font-size:.9rem;cursor:pointer;text-align:right;transition:background .2s,color .2s;border-right:3px solid transparent;width:100%}
+.adm-navbtn:hover{background:rgba(0,212,255,.05);color:var(--white)}
+.adm-navbtn.active{background:rgba(0,212,255,.08);color:var(--cyan);border-right-color:var(--cyan)}
+.nav-icon{font-size:1.1rem;width:22px;text-align:center;flex-shrink:0}
+.adm-content{padding:2rem;overflow-y:auto;max-height:calc(90vh - 80px)}
+.panel-title{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:1.5rem;padding-bottom:.8rem;border-bottom:1px solid var(--border)}
+.panel-subtitle{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:3px;color:var(--cyan);text-transform:uppercase;margin:1.5rem 0 .8rem}
+.card-group{background:rgba(255,255,255,.02);border:1px solid var(--border);padding:1.5rem;margin-bottom:1rem}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.stat-edit-card{background:rgba(0,212,255,.03);border:1px solid var(--border);padding:1rem}
+.skills-header-row{display:flex;gap:.8rem;align-items:center;padding:.5rem 0;margin-bottom:.5rem}
+.contact-header-row{display:flex;gap:.8rem;align-items:center;padding:.5rem 0;margin-bottom:.5rem}
+.proj-cards{display:flex;flex-direction:column;gap:.8rem;margin-bottom:1rem}
+.proj-edit-card{background:rgba(255,255,255,.02);border:1px solid var(--border);padding:1.2rem;transition:border-color .2s}
+.proj-edit-card:hover{border-color:rgba(0,212,255,.3)}
+.proj-edit-card .fg{margin-bottom:.8rem}
+.proj-edit-card .fg:last-child{margin-bottom:0}
+.proj-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:.8rem;border-bottom:1px solid var(--border)}
+.proj-card-title{font-family:'Space Mono',monospace;font-size:.85rem;color:var(--white)}
+.proj-card-status{font-family:'Space Mono',monospace;font-size:.65rem;padding:.25rem .7rem;background:rgba(0,255,136,.08);color:#00ff88;border:1px solid rgba(0,255,136,.2)}
+.proj-g2{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media(max-width:700px){
+  .adm-layout{grid-template-columns:1fr}
+  .adm-nav{flex-direction:row;overflow-x:auto;border-left:none;border-bottom:1px solid var(--border)}
+  .adm-navbtn{border-right:none;border-bottom:3px solid transparent;white-space:nowrap;padding:.7rem 1rem}
+  .adm-navbtn.active{border-right:none;border-bottom-color:var(--cyan)}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .proj-g2{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -240,7 +274,7 @@ footer{border-top:1px solid var(--border);padding:3rem 4rem;display:flex;justify
     <p class="slabel rv">/ عن مازن</p>
     <h2 class="stitle rv d1">أنا مطور<br><em>شغوف بالتفاصيل</em></h2>
     <div class="sdiv rv d2"></div>
-    <p class="rv d2" id="about-p1">مطور Full Stack عمره <strong>17 سنة</strong> من القاهرة. بشتغل على مشاريع ويب من الصفر لآخره.</p>
+    <p class="rv d2" id="about-p1">مطور Full Stack عمره <strong>16 سنة</strong> من القاهرة. بشتغل على مشاريع ويب من الصفر لآخره.</p>
     <p class="rv d3" id="about-p2">بستخدم <strong>Next.js، Supabase، Cloudflare R2، وVercel</strong> في مشاريعي.</p>
     <div class="astats rv">
       <div class="astat"><div class="astat-n" id="s1n">2+</div><div class="astat-l" id="s1l">مشاريع مكتملة</div></div>
@@ -307,68 +341,109 @@ footer{border-top:1px solid var(--border);padding:3rem 4rem;display:flex;justify
 <!-- ADMIN -->
 <div id="adm-ov">
   <div id="adm-panel">
+
     <div class="adm-hd">
-      <div>
-        <div class="adm-title">⚡ لوحة التحكم</div>
-        <div class="sb-status"><span class="sbdot"></span><span id="sb-txt">جاري الاتصال...</span></div>
+      <div style="display:flex;align-items:center;gap:1rem">
+        <div class="adm-logo">⚡</div>
+        <div>
+          <div class="adm-title">لوحة التحكم</div>
+          <div class="sb-status"><span class="sbdot" id="sbdot"></span><span id="sb-txt">جاري الاتصال...</span></div>
+        </div>
       </div>
       <button class="adm-x" onclick="document.getElementById('adm-ov').classList.remove('open')">✕</button>
     </div>
-    <div class="adm-tabs">
-      <button class="adm-tab active" data-tab="hero">Hero</button>
-      <button class="adm-tab" data-tab="about">About</button>
-      <button class="adm-tab" data-tab="skills">Skills</button>
-      <button class="adm-tab" data-tab="projects">Projects</button>
-      <button class="adm-tab" data-tab="contact">Contact</button>
-    </div>
-    <div class="adm-body">
 
-      <div class="tpanel active" id="tab-hero">
-        <div class="fg"><label>الاسم الكبير</label><input id="eh-name" value="MAZEN"></div>
-        <div class="fg"><label>Eyebrow</label><input id="eh-eye" value="◈ FULL STACK DEVELOPER ◈ CAIRO, EG ◈"></div>
-        <div class="fg"><label>وصف</label><textarea id="eh-role">أبني تجارب رقمية لا تُنسى — من الفكرة للكود للإنتاج</textarea></div>
-        <div class="fg"><label>Logo/Nav</label><input id="eh-nav" value="MZN"></div>
-        <button class="savebtn" onclick="save('hero')">حفظ ✓</button>
+    <div class="adm-layout">
+
+      <div class="adm-nav">
+        <button class="adm-navbtn active" data-tab="hero"><span class="nav-icon">🏠</span><span>الرئيسية</span></button>
+        <button class="adm-navbtn" data-tab="about"><span class="nav-icon">👤</span><span>عني</span></button>
+        <button class="adm-navbtn" data-tab="skills"><span class="nav-icon">⚡</span><span>المهارات</span></button>
+        <button class="adm-navbtn" data-tab="projects"><span class="nav-icon">🚀</span><span>المشاريع</span></button>
+        <button class="adm-navbtn" data-tab="contact"><span class="nav-icon">📬</span><span>التواصل</span></button>
       </div>
 
-      <div class="tpanel" id="tab-about">
-        <div class="fg"><label>فقرة 1</label><textarea id="ea-p1">مطور Full Stack عمره 16 سنة من القاهرة. بشتغل على مشاريع ويب من الصفر لآخره.</textarea></div>
-        <div class="fg"><label>فقرة 2</label><textarea id="ea-p2">بستخدم Next.js، Supabase، Cloudflare R2، وVercel في مشاريعي.</textarea></div>
-        <div class="g2">
-          <div class="fg"><label>Stat 1 رقم</label><input id="es1n" value="2+"></div>
-          <div class="fg"><label>Stat 1 وصف</label><input id="es1l" value="مشاريع مكتملة"></div>
-          <div class="fg"><label>Stat 2 رقم</label><input id="es2n" value="16"></div>
-          <div class="fg"><label>Stat 2 وصف</label><input id="es2l" value="سنة من الشغف"></div>
-          <div class="fg"><label>Stat 3 رقم</label><input id="es3n" value="∞"></div>
-          <div class="fg"><label>Stat 3 وصف</label><input id="es3l" value="رغبة في التطور"></div>
-          <div class="fg"><label>Stat 4 رقم</label><input id="es4n" value="EG"></div>
-          <div class="fg"><label>Stat 4 وصف</label><input id="es4l" value="صنع في مصر"></div>
+      <div class="adm-content">
+
+        <div class="tpanel active" id="tab-hero">
+          <div class="panel-title">🏠 الصفحة الرئيسية</div>
+          <div class="card-group">
+            <div class="fg"><label>اسمك الكبير</label><input id="eh-name" placeholder="MAZEN"></div>
+            <div class="fg"><label>النص الصغير تحت الاسم</label><input id="eh-eye"></div>
+            <div class="fg"><label>جملة التعريف</label><textarea id="eh-role"></textarea></div>
+            <div class="fg"><label>اختصار الـ Logo</label><input id="eh-nav" style="max-width:120px"></div>
+          </div>
+          <button class="savebtn" onclick="save('hero')">💾 حفظ التغييرات</button>
         </div>
-        <div class="fg"><label>Tags (فواصل)</label><input id="ea-tags" value="Next.js,Supabase,Cloudflare,Vercel,React,Egypt 🇪🇬"></div>
-        <button class="savebtn" onclick="save('about')">حفظ ✓</button>
-      </div>
 
-      <div class="tpanel" id="tab-skills">
-        <div class="sedit" id="skills-edit"></div>
-        <button class="addrow" onclick="addSkill()">+ مهارة جديدة</button><br><br>
-        <button class="savebtn" onclick="save('skills')">حفظ ✓</button>
-      </div>
+        <div class="tpanel" id="tab-about">
+          <div class="panel-title">👤 قسم عني</div>
+          <div class="card-group">
+            <div class="fg"><label>فقرة التعريف الأولى</label><textarea id="ea-p1"></textarea></div>
+            <div class="fg"><label>فقرة التعريف الثانية</label><textarea id="ea-p2"></textarea></div>
+          </div>
+          <div class="panel-subtitle">📊 الإحصائيات</div>
+          <div class="card-group">
+            <div class="stats-grid">
+              <div class="stat-edit-card"><div class="fg"><label>رقم</label><input id="es1n" style="text-align:center"></div><div class="fg"><label>وصف</label><input id="es1l"></div></div>
+              <div class="stat-edit-card"><div class="fg"><label>رقم</label><input id="es2n" style="text-align:center"></div><div class="fg"><label>وصف</label><input id="es2l"></div></div>
+              <div class="stat-edit-card"><div class="fg"><label>رقم</label><input id="es3n" style="text-align:center"></div><div class="fg"><label>وصف</label><input id="es3l"></div></div>
+              <div class="stat-edit-card"><div class="fg"><label>رقم</label><input id="es4n" style="text-align:center"></div><div class="fg"><label>وصف</label><input id="es4l"></div></div>
+            </div>
+          </div>
+          <div class="panel-subtitle">🏷️ Tags</div>
+          <div class="card-group">
+            <div class="fg"><label>Tags مفصولة بفواصل</label><input id="ea-tags"></div>
+          </div>
+          <button class="savebtn" onclick="save('about')">💾 حفظ التغييرات</button>
+        </div>
 
-      <div class="tpanel" id="tab-projects">
-        <div id="proj-edit"></div>
-        <button class="addrow" onclick="addProject()">+ مشروع جديد</button>
-      </div>
+        <div class="tpanel" id="tab-skills">
+          <div class="panel-title">⚡ المهارات</div>
+          <div class="card-group">
+            <div class="skills-header-row">
+              <span style="width:55px;text-align:center;font-size:.6rem;color:var(--muted)">أيقونة</span>
+              <span style="flex:1;font-size:.6rem;color:var(--muted)">الاسم</span>
+              <span style="width:80px;text-align:center;font-size:.6rem;color:var(--muted)">المستوى %</span>
+              <span style="width:28px"></span>
+            </div>
+            <div class="sedit" id="skills-edit"></div>
+          </div>
+          <button class="addrow" onclick="addSkill()">＋ مهارة جديدة</button><br>
+          <button class="savebtn" onclick="save('skills')">💾 حفظ المهارات</button>
+        </div>
 
-      <div class="tpanel" id="tab-contact">
-        <div id="cont-edit"></div>
-        <button class="addrow" onclick="addContact()">+ وسيلة تواصل</button><br><br>
-        <div class="fg"><label>ملاحظة</label><textarea id="ec-note">متاح للمشاريع Freelance — لو عندك فكرة أو مشروع محتاج تطوير، بنتكلم 🚀</textarea></div>
-        <button class="savebtn" onclick="save('contact')">حفظ ✓</button>
-      </div>
+        <div class="tpanel" id="tab-projects">
+          <div class="panel-title">🚀 المشاريع</div>
+          <div class="proj-cards" id="proj-edit"></div>
+          <button class="addrow" onclick="addProject()">＋ مشروع جديد</button><br>
+          <button class="savebtn" onclick="save('projects')">💾 حفظ المشاريع</button>
+        </div>
 
+        <div class="tpanel" id="tab-contact">
+          <div class="panel-title">📬 التواصل</div>
+          <div class="card-group">
+            <div class="contact-header-row">
+              <span style="width:45px;text-align:center;font-size:.6rem;color:var(--muted)">أيقونة</span>
+              <span style="width:85px;font-size:.6rem;color:var(--muted)">الاسم</span>
+              <span style="flex:1;font-size:.6rem;color:var(--muted)">القيمة</span>
+              <span style="flex:1;font-size:.6rem;color:var(--muted)">الرابط</span>
+              <span style="width:28px"></span>
+            </div>
+            <div id="cont-edit"></div>
+          </div>
+          <button class="addrow" onclick="addContact()">＋ وسيلة تواصل</button><br><br>
+          <div class="card-group">
+            <div class="fg"><label>💬 ملاحظة أسفل التواصل</label><textarea id="ec-note"></textarea></div>
+          </div>
+          <button class="savebtn" onclick="save('contact')">💾 حفظ التواصل</button>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
+
 
 <script>
 /* ── CONFIG ── */
@@ -381,7 +456,7 @@ let D = {
   hero:    { name:'MAZEN', eyebrow:'◈ FULL STACK DEVELOPER ◈ CAIRO, EG ◈', role:'أبني تجارب <span>رقمية لا تُنسى</span> — من الفكرة للكود للإنتاج', nav:'MZN' },
   about:   { p1:'مطور Full Stack عمره <strong>16 سنة</strong> من القاهرة. بشتغل على مشاريع ويب.', p2:'بستخدم <strong>Next.js، Supabase، Cloudflare R2، وVercel</strong>.', stats:[{n:'2+',l:'مشاريع مكتملة'},{n:'16',l:'سنة من الشغف'},{n:'∞',l:'رغبة في التطور'},{n:'EG',l:'صنع في مصر'}], tags:['Next.js','Supabase','Cloudflare','Vercel','React','Egypt 🇪🇬'] },
   skills:  [{icon:'⚡',name:'Next.js',lv:85},{icon:'🗄️',name:'Supabase',lv:80},{icon:'☁️',name:'Cloudflare R2',lv:75},{icon:'🚀',name:'Vercel',lv:90},{icon:'⚛️',name:'React',lv:85},{icon:'🎨',name:'Tailwind',lv:80},{icon:'💻',name:'JavaScript',lv:82},{icon:'🔷',name:'TypeScript',lv:65},{icon:'📦',name:'Node.js',lv:70},{icon:'🗃️',name:'PostgreSQL',lv:72}],
-  projects:[{title:'Make Future Center',desc:'منصة تعليمية عربية متكاملة تدعم أدوار admin/teacher/student مع video player وتتبع التقدم.',tech:['Next.js 14','Supabase','Cloudflare R2','Vercel'],status:'LIVE'},{title:'HAMMER Restaurant',desc:'تطبيق طلبات مطعم مصري ثنائي اللغة مع admin dashboard وإشعارات realtime.',tech:['Next.js','Supabase','Realtime','Vercel'],status:'IN DEV'}],
+  projects:[{title:'Make Future Center',desc:'منصة تعليمية عربية متكاملة تدعم أدوار admin/teacher/student مع video player وتتبع التقدم.',tech:['Next.js 14','Supabase','Cloudflare R2','Vercel'],status:'LIVE',link:''},{title:'HAMMER Restaurant',desc:'تطبيق طلبات مطعم مصري ثنائي اللغة مع admin dashboard وإشعارات realtime.',tech:['Next.js','Supabase','Realtime','Vercel'],status:'IN DEV',link:''}],
   contacts:[{icon:'📧',label:'Email',val:'mazen@example.com',href:'mailto:mazen@example.com'},{icon:'💬',label:'WhatsApp',val:'+20 1XX XXX XXXX',href:'https://wa.me/20'},{icon:'🐱',label:'GitHub',val:'github.com/mazen',href:'https://github.com'}],
   contact: { note:'<strong>متاح للمشاريع Freelance</strong> — لو عندك فكرة أو مشروع محتاج تطوير، بنتكلم 🚀' },
 };
@@ -482,7 +557,11 @@ function renderSkills(){
   document.querySelectorAll('.skcard.rv').forEach(el=>ro.observe(el));
 }
 function renderProjects(){
-  document.getElementById('projects-grid').innerHTML=D.projects.map((p,i)=>`<div class="pcard rv d${(i%2)+1}"><div class="poverlay"></div><div class="phead"><span class="pnum">0${i+1}</span><span class="pstatus"><span class="sdot"></span>${p.status}</span></div><div class="pbody"><h3 class="ptitle">${p.title}</h3><p class="pdesc">${p.desc}</p><div class="ptech">${p.tech.map(t=>`<span class="ttag">${t}</span>`).join('')}</div></div></div>`).join('');
+  document.getElementById('projects-grid').innerHTML=D.projects.map((p,i)=>{
+    const clickable = p.link ? `onclick="window.open('${p.link}','_blank')" style="cursor:pointer"` : '';
+    const arrow = p.link ? `<span class="plink-icon">↗</span>` : '';
+    return `<div class="pcard rv d${(i%2)+1}" ${clickable}><div class="poverlay"></div><div class="phead"><span class="pnum">0${i+1}</span><div style="display:flex;align-items:center;gap:.8rem"><span class="pstatus"><span class="sdot"></span>${p.status}</span>${arrow}</div></div><div class="pbody"><h3 class="ptitle">${p.title}</h3><p class="pdesc">${p.desc}</p><div class="ptech">${p.tech.map(t=>`<span class="ttag">${t}</span>`).join('')}</div></div></div>`;
+  }).join('');
   document.querySelectorAll('.pcard.rv').forEach(el=>ro.observe(el));
 }
 function renderContact(){
@@ -516,8 +595,8 @@ function openAdmin(){
   syncFields(); renderAdminSkills(); renderAdminProjects(); renderAdminContacts();
 }
 document.getElementById('adm-ov').addEventListener('click',e=>{ if(e.target===e.currentTarget) e.currentTarget.classList.remove('open'); });
-document.querySelectorAll('.adm-tab').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('.adm-tab,.tpanel').forEach(el=>el.classList.remove('active'));
+document.querySelectorAll('.adm-navbtn').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.adm-navbtn,.tpanel').forEach(el=>el.classList.remove('active'));
   b.classList.add('active'); document.getElementById('tab-'+b.dataset.tab).classList.add('active');
 }));
 
@@ -570,23 +649,33 @@ function addSkill(){ D.skills.push({icon:'⚡',name:'مهارة',lv:70}); render
 
 /* ── ADMIN PROJECTS ── */
 function renderAdminProjects(){
-  document.getElementById('proj-edit').innerHTML=D.projects.map((p,i)=>`<div class="pecard"><div><div class="pe-t">${p.title}</div><div class="pe-d">${p.desc.substring(0,50)}...</div></div><div class="pe-acts"><button class="peb peb-e" onclick="editProj(${i})">✎</button><button class="peb peb-d" onclick="delProj(${i})">✕</button></div></div>`).join('');
+  document.getElementById('proj-edit').innerHTML = D.projects.map((p,i)=>`
+    <div class="proj-edit-card">
+      <div class="proj-card-head">
+        <span class="proj-card-title">🚀 مشروع ${i+1}</span>
+        <div style="display:flex;gap:.5rem;align-items:center">
+          <span class="proj-card-status">${p.status||'NEW'}</span>
+          <button class="delbtn" onclick="delProj(${i})" title="حذف">✕</button>
+        </div>
+      </div>
+      <div class="fg"><label>العنوان</label><input class="pf-title" value="${p.title||''}" onchange="D.projects[${i}].title=this.value" placeholder="اسم المشروع"></div>
+      <div class="fg"><label>الوصف</label><textarea class="pf-desc" onchange="D.projects[${i}].desc=this.value" placeholder="وصف المشروع...">${p.desc||''}</textarea></div>
+      <div class="proj-g2">
+        <div class="fg"><label>🔗 رابط المشروع</label><input class="pf-link" value="${p.link||''}" onchange="D.projects[${i}].link=this.value" placeholder="https://..."></div>
+        <div class="fg"><label>الحالة</label><select onchange="D.projects[${i}].status=this.value" style="width:100%;padding:.8rem 1rem;background:rgba(255,255,255,.03);border:1px solid var(--border);color:var(--white);font-family:Cairo,sans-serif;font-size:.9rem;outline:none">
+          <option value="LIVE" ${p.status==='LIVE'?'selected':''}>🟢 LIVE</option>
+          <option value="IN DEV" ${p.status==='IN DEV'?'selected':''}>🟡 IN DEV</option>
+          <option value="NEW" ${p.status==='NEW'?'selected':''}>⚪ NEW</option>
+        </select></div>
+      </div>
+      <div class="fg"><label>التقنيات (مفصولة بفواصل)</label><input class="pf-tech" value="${(p.tech||[]).join(',')}" onchange="D.projects[${i}].tech=this.value.split(',').map(x=>x.trim()).filter(Boolean)" placeholder="Next.js, React, Supabase..."></div>
+    </div>
+  `).join('');
 }
-function editProj(i){
-  const p=D.projects[i];
-  const t=prompt('العنوان:',p.title); if(!t) return;
-  const d=prompt('الوصف:',p.desc)||p.desc;
-  const tk=prompt('التقنيات (فواصل):',p.tech.join(','))||p.tech.join(',');
-  D.projects[i]={...p,title:t,desc:d,tech:tk.split(',').map(x=>x.trim())};
-  renderAdminProjects(); renderProjects(); sbSave('projects');
-}
-function delProj(i){ if(!confirm(`حذف "${D.projects[i].title}"؟`)) return; D.projects.splice(i,1); renderAdminProjects(); renderProjects(); sbSave('projects'); }
+function delProj(i){ if(!confirm('حذف "'+D.projects[i].title+'"؟')) return; D.projects.splice(i,1); renderAdminProjects(); renderProjects(); }
 function addProject(){
-  const t=prompt('العنوان:'); if(!t) return;
-  const d=prompt('الوصف:')||'';
-  const tk=prompt('التقنيات (فواصل):')||'';
-  D.projects.push({title:t,desc:d,tech:tk.split(',').map(x=>x.trim()).filter(Boolean),status:'NEW'});
-  renderAdminProjects(); renderProjects(); sbSave('projects');
+  D.projects.push({title:'مشروع جديد',desc:'',tech:[],link:'',status:'NEW'});
+  renderAdminProjects();
 }
 
 /* ── ADMIN CONTACTS ── */
