@@ -3,139 +3,142 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mazen Developer | مازن مطور ويب — Next.js, React, Supabase</title>
+<title>Mazen Developer | الـ Portfolio الأسطوري — Full Stack Expert</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cairo:wght@300;400;600;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-<style>
+<script src="https://unpkg.com/lenis@1.0.27/dist/lenis.min.js"></script> <style>
 :root {
-    --black: #020205;
-    --surface: rgba(10, 10, 15, 0.6);
-    --border: rgba(0, 212, 255, 0.15);
+    --black: #010103;
+    --surface: rgba(10, 10, 15, 0.4);
+    --border: rgba(0, 212, 255, 0.12);
     --cyan: #00d4ff;
     --gold: #ffd060;
-    --white: #f0f2f5;
-    --muted: #6a6a8b;
+    --white: #f5f7fa;
+    --muted: #8a8aab;
     --danger: #ff4466;
     --grad: linear-gradient(135deg, #00d4ff, #0040ff);
-    --grad-gold: linear-gradient(135deg, #ffd060, #ff8c00);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;cursor:none !important;}
-html{scroll-behavior:smooth}
-body{background:var(--black);color:var(--white);font-family:'Cairo',sans-serif;overflow-x:hidden; background-image: radial-gradient(circle at 50% 0%, #0a0a2a 0%, #020205 70%);}
+html{scroll-behavior: initial;} /* Lenis الضروري لعمل مكتبة */
+body{background:var(--black);color:var(--white);font-family:'Cairo',sans-serif;overflow-x:hidden;}
 
-/* Custom Cursor */
-.cursor { width: 6px; height: 6px; background: var(--cyan); border-radius: 50%; position: fixed; pointer-events: none; z-index: 99999; mix-blend-mode: difference; transition: transform 0.1s; }
-.cursor-follower { width: 30px; height: 30px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 50%; position: fixed; pointer-events: none; z-index: 99998; transition: width 0.3s, height 0.3s, background 0.3s, transform 0.15s ease-out; transform: translate(-50%, -50%); }
-.cursor-follower.hover { width: 70px; height: 70px; background: rgba(0, 212, 255, 0.1); border-color: transparent; backdrop-filter: blur(2px); mix-blend-mode: difference;}
+/* Custom Cursor - Premium Style */
+.cursor { width: 8px; height: 8px; background: #fff; border-radius: 50%; position: fixed; pointer-events: none; z-index: 100000; mix-blend-mode: difference; transition: transform 0.1s; }
+.cursor-follower { width: 40px; height: 40px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50%; position: fixed; pointer-events: none; z-index: 99999; transition: width 0.3s, height 0.3s, transform 0.15s ease-out; transform: translate(-50%, -50%); mix-blend-mode: difference;}
+.cursor-follower.hover { width: 80px; height: 80px; background: rgba(255, 255, 255, 0.1); border-color: transparent; backdrop-filter: blur(4px); }
 
-/* Noise Overlay */
-#grain{position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+/* Noise Texture Overlay */
+#grain{position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.02;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:2rem 5rem;transition:padding 0.4s, background .4s, backdrop-filter .4s}
-nav.scrolled{padding:1rem 5rem; background:rgba(2,2,5,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:2rem 5rem;transition:background 0.4s, backdrop-filter 0.4s}
+nav.scrolled{background:rgba(2,2,5,.7);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
 .nav-logo{font-family:'Cinzel',serif;font-size:1.8rem;font-weight:900;color:var(--white);letter-spacing:5px;}
 .nav-logo span{color:var(--cyan)}
 .nav-links{display:flex;gap:4rem;list-style:none}
-.nav-links a{color:var(--muted);text-decoration:none;font-size:.85rem;letter-spacing:4px;text-transform:uppercase;transition:color .3s;font-family:'Space Mono',monospace; position:relative;}
-.nav-links a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:1px;background:var(--cyan);transition:width 0.3s;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.85rem;letter-spacing:4px;text-transform:uppercase;transition:color 0.3s;font-family:'Space Mono',monospace;}
 .nav-links a:hover{color:var(--white)}
-.nav-links a:hover::after{width:100%;}
 
 /* HERO */
-#hero{position:relative;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center; overflow:hidden;}
-#hero-canvas{position:absolute;inset:0;z-index:0;pointer-events:none;}
-.hero-content{position:relative;z-index:2;width:100%; max-width: 1400px; padding: 0 2rem;}
-.hero-eyebrow{font-family:'Space Mono',monospace;font-size:1rem;letter-spacing:10px;color:var(--cyan);text-transform:uppercase;margin-bottom:1rem; opacity:0;}
-.hero-name{font-family:'Cinzel',serif;font-size:clamp(6rem, 15vw, 15rem);font-weight:900;line-height:0.8;letter-spacing:-5px;color:var(--white); opacity:0;}
-.hero-role{font-size:1.5rem;color:var(--muted);margin-top:3rem;letter-spacing:2px;font-weight:300; opacity:0;}
+#hero{position:relative;height:100vh;display:flex;justify-content:center;align-items:center;text-align:center; overflow:hidden;}
+#hero-canvas{position:absolute;inset:0;z-index:0;}
+.hero-content{position:relative;z-index:2;width:100%; max-width: 1600px; padding: 0 2rem;}
+.hero-eyebrow{font-family:'Space Mono',monospace;font-size:1rem;letter-spacing:12px;color:var(--cyan);text-transform:uppercase;margin-bottom:1rem; opacity:0;}
+/* Oversized Cinematic Typography */
+.hero-name{font-family:'Cinzel',serif;font-size:clamp(6rem, 18vw, 18rem);font-weight:900;line-height:0.8;letter-spacing:-6px;color:var(--white); opacity:0;}
+.hero-role{font-size:1.8rem;color:var(--muted);margin-top:4rem;letter-spacing:2px;font-weight:300; opacity:0;}
 .hero-role span{color:var(--cyan);font-weight:600; font-family:'Space Mono',monospace;}
-.hero-cta{margin-top:4rem;display:flex;gap:2rem;justify-content:center; opacity:0;}
-
-/* MAGNETIC BUTTONS */
-.btn-p, .btn-o{display:inline-block; padding:1.2rem 3.5rem; font-family:'Space Mono',monospace;font-size:.9rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;text-decoration:none;border:none; border-radius: 100px; transition:transform .3s,box-shadow .3s, background .3s; position:relative;}
-.btn-p{background:var(--cyan);color:#000;}
-.btn-p:hover{box-shadow:0 0 30px rgba(0,212,255,.4)}
-.btn-o{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,0.2);}
-.btn-o:hover{border-color:var(--cyan); color:var(--cyan);}
 
 /* SECTIONS */
-section{padding:12rem 5rem;max-width:1600px;margin:0 auto;position:relative;z-index:2}
-.slabel{font-family:'Space Mono',monospace;font-size:.8rem;letter-spacing:8px;color:var(--cyan);text-transform:uppercase;margin-bottom:1.5rem; opacity:0;}
-.stitle{font-family:'Cairo',sans-serif;font-size:clamp(3rem, 6vw, 6rem);font-weight:900;line-height:1.1;margin-bottom:2rem; letter-spacing: -1px; opacity:0;}
+section{padding:15rem 5rem;max-width:1800px;margin:0 auto;position:relative;z-index:2}
+.slabel{font-family:'Space Mono',monospace;font-size:.85rem;letter-spacing:10px;color:var(--cyan);text-transform:uppercase;margin-bottom:2rem; opacity:0;}
+.stitle{font-family:'Cairo',sans-serif;font-size:clamp(4rem, 8vw, 9rem);font-weight:900;line-height:1;margin-bottom:3rem; letter-spacing: -2px; opacity:0;}
 .stitle em{font-style:normal; font-family:'Cinzel',serif; color:var(--gold);}
-.sdiv{width:120px;height:2px;background:var(--cyan);margin-bottom:6rem; opacity:0;}
 
 /* ABOUT */
-#about{display:grid;grid-template-columns:1.2fr 1fr;gap:8rem;align-items:center}
-.about-text p{color:var(--muted);line-height:2.2;font-size:1.2rem;margin-bottom:2rem; font-weight:300;}
+#about{display:grid;grid-template-columns:1fr 1fr;gap:10rem;align-items:center}
+.about-text p{color:var(--muted);line-height:2.4;font-size:1.3rem;margin-bottom:2.5rem; font-weight:300;}
 .about-text p strong{color:var(--white); font-weight:600;}
-.astats{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;margin-top:4rem}
-.astat{padding:2rem 0; border-top: 1px solid rgba(255,255,255,0.1); transition:border-color 0.3s;}
-.astat:hover{border-top-color: var(--cyan);}
-.astat-n{font-family:'Space Mono',monospace;font-size:3.5rem;font-weight:700;color:var(--white)}
-.astat-l{font-size:.9rem;color:var(--muted);margin-top:.5rem; letter-spacing: 2px;}
-.aframe{width:100%; height:600px; background:var(--surface); border:1px solid var(--border); border-radius:30px; display:flex;flex-direction:column;justify-content:center;align-items:center; position:relative; overflow:hidden;}
-.avatar{font-family:'Cinzel',serif;font-size:6rem;font-weight:900;color:rgba(255,255,255,0.05); position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:0;}
-.atags{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;padding:0 2rem; position:relative; z-index:1;}
-.tag{padding:.6rem 1.5rem; border:1px solid rgba(255,255,255,0.1); font-size:.85rem;font-family:'Space Mono',monospace;color:var(--white);letter-spacing:2px; border-radius:50px; backdrop-filter:blur(5px);}
+.astats{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:5rem}
+.astat{padding:2.5rem; border: 1px solid rgba(255,255,255,0.05); background: var(--surface); backdrop-filter:blur(10px); position:relative;}
+.astat::before{content:''; position:absolute; inset:0; background:linear-gradient(135deg, rgba(0,212,255,0.05), transparent); opacity:0; transition:opacity 0.4s;}
+.astat:hover::before{opacity:1;}
+.astat-n{font-family:'Space Mono',monospace;font-size:4rem;font-weight:700;color:var(--white)}
+.astat-l{font-size:.9rem;color:var(--muted);margin-top:.5rem; letter-spacing: 3px; text-transform:uppercase;}
+.aframe{width:100%; height:650px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:40px; position:relative; overflow:hidden;}
+/* 3D Parallax Image Effect (Placeholder) */
+.aframe-img{position:absolute; inset:0; background: url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1000') center/cover; opacity: 0.1; filter: grayscale(100%); transition: transform 0.1s;}
 
-/* SKILLS */
-.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2rem}
-.skcard{border:1px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.02);padding:3rem 2rem; border-radius: 20px; transition:all .4s ease;backdrop-filter:blur(10px)}
-.skcard:hover{border-color:var(--border);background:var(--surface); transform:translateY(-10px);}
-.sk-icon{font-size:3rem;margin-bottom:1.5rem; filter: grayscale(100%); transition:filter 0.4s;}
-.skcard:hover .sk-icon{filter: grayscale(0%);}
-.sk-name{font-family:'Space Mono',monospace;font-size:1.2rem;font-weight:700;color:var(--white);letter-spacing:2px; margin-bottom: 1rem;}
-.sk-bar{height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden; position:relative;}
-.sk-fill{height:100%;background:var(--cyan); width:0; transition:width 1.5s cubic-bezier(0.16, 1, 0.3, 1);}
-.skcard.visible .sk-fill{width:var(--lv)}
+/* SKILLS - breaking the grid */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:2.5rem}
+.skcard{border:1px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.01);padding:4rem 3rem; border-radius: 30px; transition:all 0.5s cubic-bezier(0.16, 1, 0.3, 1); backdrop-filter:blur(10px); position:relative; overflow:hidden;}
+.skcard:hover{border-color:var(--cyan); transform:translateY(-15px) scale(1.03); background:var(--surface); box-shadow: 0 20px 50px rgba(0,212,255,0.15);}
+.sk-icon{font-size:4rem;margin-bottom:2rem; transition: transform 0.4s;}
+.skcard:hover .sk-icon{transform: scale(1.1);}
+.sk-name{font-family:'Space Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--white);letter-spacing:2px;}
+.sk-desc{color:var(--muted); font-size: 0.95rem; margin-top: 0.8rem; line-height: 1.8; font-weight: 300;}
 
-/* PROJECTS */
-.pgrid{display:grid;grid-template-columns:1fr;gap:4rem}
-.pcard{display:grid;grid-template-columns:1fr 1.5fr; border:1px solid rgba(255,255,255,0.05); border-radius:30px; background:rgba(255,255,255,0.01); transition:all 0.4s; overflow:hidden;}
-.pcard:hover{border-color:var(--border); background:rgba(0,212,255,0.02); transform:scale(1.02);}
-.p-visual{padding:4rem; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.3); border-left:1px solid rgba(255,255,255,0.05);}
-.p-num{font-family:'Cinzel',serif;font-size:8rem;font-weight:900;color:rgba(255,255,255,0.03); line-height:1;}
-.pbody{padding:4rem;}
-.ptitle{font-size:2.5rem;font-weight:900;margin-bottom:1.5rem; letter-spacing: -1px;}
-.pdesc{color:var(--muted);font-size:1.1rem;line-height:2;margin-bottom:2.5rem; font-weight:300;}
-.ptech{display:flex;flex-wrap:wrap;gap:.8rem; margin-bottom: 3rem;}
-.ttag{padding:.4rem 1.2rem;background:transparent;border:1px solid rgba(255,255,255,0.1);font-family:'Space Mono',monospace;font-size:.75rem;color:var(--white);letter-spacing:1px; border-radius:50px;}
-.p-link{display:inline-flex; align-items:center; gap:1rem; color:var(--cyan); font-family:'Space Mono',monospace; letter-spacing:2px; text-decoration:none; font-size:0.9rem;}
-.p-link span{width:40px;height:40px;border:1px solid var(--cyan);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform 0.3s;}
-.pcard:hover .p-link span{transform:translate(-10px, -10px);}
+/* PROJECTS - Cinematic List Style */
+.pgrid{display:grid;grid-template-columns:1fr;gap:6rem}
+.pcard{border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:6rem; display:grid; grid-template-columns: 1.2fr 1fr; gap: 5rem; transition:all 0.4s;}
+.pbody{display:flex; flex-direction:column; justify-content:center;}
+.ptitle{font-size:3.5rem;font-weight:900;margin-bottom:2rem; letter-spacing: -2px; font-family:'Cairo',sans-serif;}
+.pdesc{color:var(--muted);font-size:1.2rem;line-height:2.1;margin-bottom:3rem; font-weight:300;}
+.ptech{display:flex;flex-wrap:wrap;gap:1rem; margin-bottom: 4rem;}
+.ttag{padding:.6rem 1.8rem;background:transparent;border:1px solid rgba(255,255,255,0.1);font-family:'Space Mono',monospace;font-size:.8rem;color:var(--white);letter-spacing:2px; border-radius:100px;}
+.p-link{display:inline-flex; align-items:center; gap:1.5rem; color:var(--cyan); font-family:'Space Mono',monospace; letter-spacing:3px; text-decoration:none; font-size:1rem; text-transform:uppercase;}
+.p-link span{width:50px;height:50px;border:1px solid var(--cyan);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all 0.4s;}
+.pcard:hover .p-link span{transform:translate(-15px, -15px); background:var(--cyan); color:#000;}
+.p-visual{width:100%; height:500px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:30px; overflow:hidden; transition: transform 0.1s;}
 
 /* CONTACT */
-#contact{text-align:center; max-width:800px;}
-.clinks{display:flex; justify-content:center; gap:2rem; margin-top:4rem;}
-.clink{width:80px;height:80px;border:1px solid rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--white);text-decoration:none;transition:all 0.3s;}
-.clink:hover{border-color:var(--cyan); color:var(--cyan); transform:translateY(-10px);}
-.cnote{margin-top:5rem; font-size:1.2rem;color:var(--muted);line-height:2;}
+#contact{text-align:center; max-width:1000px;}
+.ctitle{font-size:clamp(4rem, 10vw, 12rem); font-family:'Cinzel',serif; font-weight:900; line-height:0.9; background: var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent;}
+.clinks{display:flex; justify-content:center; gap:3rem; margin-top:6rem;}
+.clink{width:100px;height:100px;border:1px solid rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:var(--white);text-decoration:none;transition:all 0.4s cubic-bezier(0.16, 1, 0.3, 1);}
+.clink:hover{border-color:var(--cyan); color:var(--cyan); transform:translateY(-15px) scale(1.1); box-shadow: 0 10px 30px rgba(0,212,255,0.2);}
 
-/* LOADER */
-#loader{position:fixed;inset:0;z-index:100000;background:var(--black);display:flex;align-items:center;justify-content:center;flex-direction:column; transition:transform 1s cubic-bezier(0.85, 0, 0.15, 1);}
+/* LOADER - Premium Minimal */
+#loader{position:fixed;inset:0;z-index:100000;background:var(--black);display:flex;align-items:center;justify-content:center; transition:transform 1s cubic-bezier(0.85, 0, 0.15, 1);}
 #loader.out{transform:translateY(-100%);}
-.llo{font-family:'Cinzel',serif;font-size:5rem;font-weight:900;color:var(--white); letter-spacing: 10px; overflow:hidden;}
-.llo span{display:inline-block; transform:translateY(100%); animation:slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;}
-
+.llo{font-family:'Cinzel',serif;font-size:6rem;font-weight:900;color:var(--white); letter-spacing: 15px; overflow:hidden;}
+.llo span{display:inline-block; transform:translateY(100%); animation:slideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;}
 @keyframes slideUp{to{transform:translateY(0);}}
 
-@media(max-width:1000px){
-  nav{padding:1.5rem 2rem} section{padding:6rem 2rem}
-  #about{grid-template-columns:1fr;gap:4rem} 
-  .pcard{grid-template-columns:1fr;} .p-visual{display:none;}
-  .hero-name{font-size: 5rem;} .cursor, .cursor-follower {display:none;}
+@media(max-width:1100px){
+  nav{padding:1.5rem 2rem} section{padding:8rem 2rem}
+  #about, .pcard{grid-template-columns:1fr;gap:4rem} 
+  .hero-name{font-size: 6rem;} .cursor, .cursor-follower {display:none;}
   .nav-links{display:none}
 }
-/* إخفاء ستايلات الأدمن هنا للاختصار - نفس الكود السابق يوضع هنا */
-#adm-ov{position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.9);backdrop-filter:blur(15px);display:none;align-items:center;justify-content:center}
+
+/* ═══ ADMIN PANEL STYLES (Kept for functionality) ═══ */
+#adm-ov{position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.92);backdrop-filter:blur(20px);display:none;align-items:center;justify-content:center; color:#fff;}
 #adm-ov.open{display:flex}
-/* ... (مساحة لوحة التحكم كما هي) ... */
+#adm-panel{background:#05050a;border:1px solid rgba(255,255,255,0.1);width:min(95vw,1000px);max-height:90vh;overflow-y:auto; border-radius:20px;}
+.adm-hd{padding:2rem 3rem;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between}
+.adm-nav{border-left:1px solid rgba(255,255,255,0.05);padding:1rem 0;display:flex;flex-direction:column; gap:0.2rem; background:rgba(0,0,0,0.2)}
+.adm-navbtn{display:flex;align-items:center;gap:1rem;padding:1rem 2rem;background:transparent;border:none;color:var(--muted);font-family:'Cairo',sans-serif;font-size:.95rem;text-align:right;transition:all .3s;border-right:3px solid transparent;width:100%}
+.adm-navbtn:hover, .adm-navbtn.active{background:rgba(0,212,255,0.05);color:var(--white);border-right-color:var(--cyan)}
+.adm-content{padding:3rem; overflow-y:auto; max-height: calc(90vh - 80px);}
+.tpanel{display:none} .tpanel.active{display:block}
+.fg{margin-bottom:1.8rem}
+.fg label{display:block;font-family:'Space Mono',monospace;font-size:.75rem;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:.8rem}
+.fg input,.fg textarea,.fg select{width:100%;padding:1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);color:var(--white);font-family:'Cairo',sans-serif;font-size:.95rem;outline:none;border-radius:8px;}
+.fg input:focus,.fg textarea:focus{border-color:var(--cyan)}
+.savebtn{padding:1rem 3rem;background:var(--cyan);color:#000;font-family:'Space Mono',monospace;font-size:.85rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none; border-radius:50px; transition:transform .2s,box-shadow .2s}
+.savebtn:hover{transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,212,255,0.3);}
+.card-group{background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.05);padding:2rem;margin-bottom:1.5rem; border-radius:12px;}
+.srow{display:flex;gap:.8rem;align-items:center; margin-bottom: 0.8rem;}
+.srow input{flex:1}
+.addrow{margin-top:1rem;padding:0.8rem;background:transparent;border:1px dashed rgba(255,255,255,0.1);color:var(--muted);font-family:'Space Mono',monospace;font-size:.75rem;width:100%; border-radius:8px; transition:all .3s}
+.addrow:hover{border-color:var(--cyan); color:var(--cyan);}
+.delbtn{width:32px;height:32px;background:rgba(255,68,102,0.1);border:1px solid rgba(255,68,102,0.2);color:var(--danger);font-size:.9rem;display:flex;align-items:center;justify-content:center; border-radius:6px;}
+.pe-card{border:1px solid rgba(255,255,255,0.05); padding:1.5rem; border-radius:8px; margin-bottom:1rem; position:relative;}
+.pe-num{position:absolute; top:1rem; right:1rem; font-family:'Cinzel',serif; color:var(--muted); font-size:0.8rem;}
 </style>
 </head>
 <body>
@@ -159,13 +162,9 @@ section{padding:12rem 5rem;max-width:1600px;margin:0 auto;position:relative;z-in
 <section id="hero">
   <canvas id="hero-canvas"></canvas>
   <div class="hero-content">
-    <p class="hero-eyebrow gs-reveal" id="hero-eyebrow">◈ FULL STACK DEVELOPER ◈ CAIRO, EG ◈</p>
-    <h1 class="hero-name gs-reveal" id="hero-name">MAZEN</h1>
-    <p class="hero-role gs-reveal" id="hero-role">أبني تجارب <span>رقمية لا تُنسى</span> — من الفكرة للكود للإنتاج</p>
-    <div class="hero-cta gs-reveal">
-      <a href="#projects" class="btn-p magnetic">مشاهدة الأعمال</a>
-      <a href="#contact" class="btn-o magnetic">تواصل معي</a>
-    </div>
+    <p class="hero-eyebrow gs-hero" id="hero-eyebrow">FULL STACK EXPERT // CAIRO, EG</p>
+    <h1 class="hero-name gs-hero" id="hero-name">MAZEN</h1>
+    <p class="hero-role gs-hero" id="hero-role">أبني أنظمة ويب <span>متكاملة ومعقدة</span> — من الفكرة للكود للإنتاج</p>
   </div>
 </section>
 
@@ -173,82 +172,176 @@ section{padding:12rem 5rem;max-width:1600px;margin:0 auto;position:relative;z-in
   <div class="about-text">
     <p class="slabel gs-sec">/ عن مازن</p>
     <h2 class="stitle gs-sec">مطور يبني<br><em>خارج الصندوق</em></h2>
-    <div class="sdiv gs-sec"></div>
-    <p class="gs-sec" id="about-p1">مطور Full Stack عمره <strong>17 سنة</strong> من القاهرة. بشتغل على مشاريع ويب من الصفر لآخره.</p>
-    <p class="gs-sec" id="about-p2">بستخدم <strong>Next.js، Supabase، Cloudflare R2، وVercel</strong> في مشاريعي.</p>
+    <p class="gs-sec" id="about-p1">مطور Full Stack عمره <strong>17 سنة</strong> من القاهرة. متخصص في هندسة وبناء تطبيقات ويب متكاملة من الصفر للإنتاج بمقاييس عالمية.</p>
+    <p class="gs-sec" id="about-p2">بستخدم <strong>Next.js 14 (App Router)، Supabase، Cloudflare R2، React 18، و TypeScript</strong> في مشاريعي لضمان أعلى أداء وأمان.</p>
     <div class="astats gs-sec">
-      <div class="astat"><div class="astat-n" id="s1n">2+</div><div class="astat-l" id="s1l">مشاريع مكتملة</div></div>
-      <div class="astat"><div class="astat-n" id="s2n">17</div><div class="astat-l" id="s2l">سنة من الشغف</div></div>
+      <div class="astat hover-target"><div class="astat-n" id="s1n">2+</div><div class="astat-l" id="s1l">مشاريع مكتملة</div></div>
+      <div class="astat hover-target"><div class="astat-n" id="s2n">17</div><div class="astat-l" id="s2l">سنة من الشغف</div></div>
     </div>
   </div>
   <div class="gs-sec">
-    <div class="aframe magnetic">
-      <div class="avatar">MZ</div>
+    <div class="aframe hover-target">
+      <div class="aframe-img" id="about-img"></div>
       <div class="atags" id="atags">
         <span class="tag">Next.js</span><span class="tag">Supabase</span>
-        <span class="tag">Cloudflare</span><span class="tag">React</span>
+        <span class="tag">TypeScript</span><span class="tag">React</span>
+        <span class="tag">Cloudflare</span><span class="tag">GSAP</span>
       </div>
     </div>
   </div>
 </section>
 
-<section id="skills">
-  <p class="slabel gs-sec">/ المهارات</p>
+<section id="skills" style="padding-top:0">
+  <p class="slabel gs-sec">/ التقنيات</p>
   <h2 class="stitle gs-sec">أدوات <em>بحترفها</em></h2>
-  <div class="sdiv gs-sec"></div>
   <div class="sgrid" id="skills-grid"></div>
 </section>
 
 <section id="projects">
-  <p class="slabel gs-sec">/ المشاريع</p>
-  <h2 class="stitle gs-sec">الأعمال <em>الكاملة</em></h2>
-  <div class="sdiv gs-sec"></div>
+  <p class="slabel gs-sec">/ الأعمال</p>
+  <h2 class="stitle gs-sec">مشاريع <em>كاملة</em></h2>
   <div class="pgrid" id="projects-grid"></div>
 </section>
 
 <section id="contact">
-  <h2 class="stitle gs-sec">خلينا <em>نتكلم</em></h2>
-  <p class="slabel gs-sec" style="margin-bottom:0;">Mazen@example.com</p>
+  <p class="slabel gs-sec">/ خلينا نتحدث</p>
+  <h2 class="ctitle gs-sec magnetic">LETS TALK</h2>
   <div class="clinks gs-sec" id="clinks"></div>
-  <div class="cnote gs-sec" id="cnote">متاح للمشاريع Freelance 🚀</div>
+  <div class="cnote gs-sec" id="cnote">متاح للمشاريع المعقدة والـ Freelance 🚀</div>
 </section>
 
+<div id="adm-ov">
+  <div id="adm-panel">
+    <div class="adm-hd">
+      <div style="display:flex;align-items:center;gap:1rem">
+        <div class="adm-title">لوحة التحكم الأسطورية</div>
+        <div class="sb-status"><span class="sbdot"></span><span id="sb-txt">متصل LocalStorage</span></div>
+      </div>
+      <button class="adm-x magnetic" onclick="document.getElementById('adm-ov').classList.remove('open')">✕</button>
+    </div>
+    <div class="adm-layout">
+      <div class="adm-nav">
+        <button class="adm-navbtn active" data-tab="hero">🏠 الرئيسية</button>
+        <button class="adm-navbtn" data-tab="about">👤 عني</button>
+        <button class="adm-navbtn" data-tab="skills">⚡ التقنيات</button>
+        <button class="adm-navbtn" data-tab="projects">🚀 المشاريع</button>
+        <button class="adm-navbtn" data-tab="contact">📬 التواصل</button>
+      </div>
+      <div class="adm-content">
+        <div class="tpanel active" id="tab-hero">
+          <div class="card-group">
+            <div class="fg"><label>اسمك الكبير</label><input id="eh-name" placeholder="MAZEN"></div>
+            <div class="fg"><label>النص الصغير فوق الاسم</label><input id="eh-eye"></div>
+            <div class="fg"><label>جملة التعريف</label><textarea id="eh-role"></textarea></div>
+          </div>
+          <button class="savebtn magnetic" onclick="save('hero')">💾 حفظ التغييرات</button>
+        </div>
+        <div class="tpanel" id="tab-about">
+          <div class="card-group">
+            <div class="fg"><label>فقرة التعريف الأولى</label><textarea id="ea-p1"></textarea></div>
+            <div class="fg"><label>فقرة التعريف الثانية</label><textarea id="ea-p2"></textarea></div>
+          </div>
+          <div class="card-group">
+            <div class="fg"><label>Tags (مفصولة بفواصل)</label><input id="ea-tags"></div>
+          </div>
+          <button class="savebtn magnetic" onclick="save('about')">💾 حفظ التغييرات</button>
+        </div>
+        <div class="tpanel" id="tab-skills">
+          <div class="card-group" id="skills-edit"></div>
+          <button class="addrow magnetic" onclick="addSkill()">＋ مهارة جديدة</button><br>
+          <button class="savebtn magnetic" onclick="save('skills')">💾 حفظ التقنيات</button>
+        </div>
+        <div class="tpanel" id="tab-projects">
+          <div id="proj-edit"></div>
+          <button class="addrow magnetic" onclick="addProject()">＋ مشروع جديد</button><br>
+          <button class="savebtn magnetic" onclick="save('projects')">💾 حفظ المشاريع</button>
+        </div>
+        <div class="tpanel" id="tab-contact">
+          <div class="card-group" id="cont-edit"></div>
+          <button class="addrow magnetic" onclick="addContact()">＋ وسيلة تواصل</button><br><br>
+          <button class="savebtn magnetic" onclick="save('contact')">💾 حفظ التواصل</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-/* ── DATA ── */
-let D = {
-  hero:    { name:'MAZEN', eyebrow:'FULL STACK DEVELOPER // CAIRO', role:'أبني تجارب <span>رقمية</span> لا تُنسى', nav:'MZN' },
-  about:   { p1:'مطور Full Stack عمره <strong>17 سنة</strong> من القاهرة. بشتغل على مشاريع ويب.', p2:'بستخدم <strong>Next.js، Supabase، Cloudflare R2، وVercel</strong>.', stats:[{n:'2+',l:'مشاريع مكتملة'},{n:'17',l:'سنة من الشغف'},{n:'∞',l:'رغبة في التطور'},{n:'EG',l:'صنع في مصر'}], tags:['Next.js','Supabase','Cloudflare','Vercel','React','Egypt'] },
-  skills:  [{icon:'⚡',name:'Next.js',lv:85},{icon:'🗄️',name:'Supabase',lv:80},{icon:'☁️',name:'Cloudflare R2',lv:75},{icon:'🚀',name:'Vercel',lv:90},{icon:'⚛️',name:'React',lv:85},{icon:'💻',name:'JavaScript',lv:82}],
-  projects:[{title:'Make Future Center',desc:'منصة تعليمية عربية متكاملة تدعم أدوار admin/teacher/student مع video player.',tech:['Next.js 14','Supabase','Cloudflare'],status:'LIVE',link:'#'},{title:'HAMMER Restaurant',desc:'تطبيق طلبات مطعم مصري مع admin dashboard.',tech:['Next.js','Supabase','Realtime'],status:'IN DEV',link:'#'}],
-  contacts:[{icon:'📧',label:'Email',val:'mazen@example.com',href:'mailto:mazen@example.com'},{icon:'💬',label:'WhatsApp',val:'+20',href:'#'},{icon:'🐱',label:'GitHub',val:'github',href:'#'}],
-  contact: { note:'متاح للمشاريع Freelance 🚀' },
+/* ── CONFIG ── */
+const PASS = 'mazen2025'; // كلمة السر في الـ URL بتفتح الأدمن
+
+// ── DATA STRUCTURE (تم تحديث المهارات) ──
+let defaultData = {
+  hero:    { name:'MAZEN', eyebrow:'FULL STACK EXPERT // CAIRO, EG', role:'أبني أنظمة ويب <span>متكاملة ومعقدة</span> — من الفكرة للكود للإنتاج' },
+  about:   { p1:'مطور Full Stack عمره <strong>17 سنة</strong> من القاهرة. متخصص في هندسة وبناء تطبيقات ويب متكاملة من الصفر بمقاييس عالمية.', p2:'بستخدم <strong>Next.js 14، Supabase، Cloudflare R2، و TypeScript</strong> لضمان أعلى أداء.', stats:[{n:'2+',l:'مشاريع مكتملة'},{n:'17',l:'سنة من الشغف'}], tags:['Next.js','Supabase','Cloudflare','React','TypeScript','GSAP','Node.js'] },
+  skills:  [
+    {icon:'⚡',name:'Next.js 14',desc:'بناء تطبيقات SSR/ISR سريعة وآمنة بـ App Router.'},
+    {icon:'🔷',name:'TypeScript',desc:'كتابة كود نظيف وقابل للصيانة وخالي من الأخطاء النوعية.'},
+    {icon:'🗄️',name:'Supabase',desc:'هندسة قواعد بيانات Realtime، أمان RLS، و Authentication.'},
+    {icon:'☁️',name:'Cloudflare R2',desc:'إدارة وتخزين الملفات بشكل موزّع وسريع جداً CDN.'},
+    {icon:'⚛️',name:'React 18',desc:'بناء واجهات مستخدم تفاعلية ومعقدة باستخدامه.'},
+    {icon:'🎨',name:'Tailwind CSS',desc:'تصميم واجهات احترافية ومتجاوبة بسرعة ودقة.'},
+    {icon:'📦',name:'Node.js',desc:'بناء وتطوير واجهات برمجة التطبيقات (APIs) قوية.'},
+    {icon:'🚀',name:'GSAP & WebGL',desc:'خلق تجارب مستخدم حركية وتفاعلية أسطورية (زي ده).'}
+  ],
+  projects:[
+    {title:'Make Future Center',desc:'منصة تعليمية عربية متكاملة تدعم أدوار (أدمن/مدرس/طالب) مع تتبع تقدم و Video Player آمن.',tech:['Next.js 14','Supabase','Cloudflare R2','Stripe'],status:'LIVE',link:''},
+    {title:'HAMMER Restaurant',desc:'تطبيق طلبات مطعم مصري ثنائي اللغة مع Admin Dashboard وإشعارات Realtime للطلبات الجديدة.',tech:['Next.js','Supabase','Realtime','PWA'],status:'IN DEV',link:''}
+  ],
+  contacts:[{icon:'📧',label:'Email',href:'mailto:mazen@example.com'},{icon:'💬',label:'WhatsApp',href:'https://wa.me/20'},{icon:'🐱',label:'GitHub',href:'https://github.com'}],
+  contact: { note:'متاح للمشاريع المعقدة Freelance 🚀' },
 };
 
-/* ── GSAP & CUSTOM CURSOR & MAGNETIC ── */
-gsap.registerPlugin(ScrollTrigger);
+// ── LOCAL STORAGE LOGIC ──
+let D = JSON.parse(localStorage.getItem('mazen_portfolio_data')) || defaultData;
 
+function saveToStorage() {
+  localStorage.setItem('mazen_portfolio_data', JSON.stringify(D));
+  toast('تم حفظ التغييرات محلياً! ✓');
+}
+
+// ── TO SUPABASE (Optional - محتاج تفعيل إذا عندك المشروع جاهز) ──
+/*
+const SB_URL = 'YOUR_SUPABASE_URL';
+const SB_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const SB_HEADERS = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' };
+
+async function sbLoad() { ... } // نفس كودك الأول
+async function sbSave(key) { ... } // نفس كودك الأول
+*/
+
+/* ── EXTERNAL LIBRARIES INIT (Lenis, GSAP, Three.js) ── */
+
+// 1. Lenis Smooth Scroll
+const lenis = new Lenis();
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
+gsap.ticker.lagSmoothing(0);
+
+// 2. Cursor Logic
 const cursor = document.getElementById('cursor');
 const follower = document.getElementById('cursor-follower');
 let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
 let posX = mouseX, posY = mouseY;
 
-document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; cursor.style.display = follower.style.display = 'block'; });
+document.addEventListener('mouseleave', () => { cursor.style.display = follower.style.display = 'none'; });
 
 gsap.ticker.add(() => {
   posX += (mouseX - posX) / 6;
   posY += (mouseY - posY) / 6;
   gsap.set(follower, { x: posX, y: posY });
-  gsap.set(cursor, { x: mouseX - 3, y: mouseY - 3 });
+  gsap.set(cursor, { x: mouseX - 4, y: mouseY - 4 });
 });
 
+// Magnetic & Hover Effects
 function initInteractions() {
-  // Magnetic Buttons
   document.querySelectorAll('.magnetic').forEach(btn => {
     btn.addEventListener('mousemove', (e) => {
       const rect = btn.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      gsap.to(btn, { x: x * 0.4, y: y * 0.4, duration: 0.3, ease: 'power2.out' });
+      const x = (e.clientX - rect.left - rect.width / 2) * 0.4;
+      const y = (e.clientY - rect.top - rect.height / 2) * 0.4;
+      gsap.to(btn, { x, y, duration: 0.3, ease: 'power2.out' });
       follower.classList.add('hover');
     });
     btn.addEventListener('mouseleave', () => {
@@ -256,100 +349,301 @@ function initInteractions() {
       follower.classList.remove('hover');
     });
   });
-
-  // Reveal Animations
-  gsap.to(".gs-reveal", { y: 0, opacity: 1, duration: 1.5, stagger: 0.1, ease: "power4.out", delay: 1 });
-  
-  document.querySelectorAll('.gs-sec').forEach(el => {
-    gsap.fromTo(el, { y: 100, opacity: 0 }, {
-      y: 0, opacity: 1, duration: 1.2, ease: "power3.out",
-      scrollTrigger: { trigger: el, start: "top 85%" }
-    });
+  document.querySelectorAll('a, button, .skcard, .pcard, .astat').forEach(el => {
+    if(!el.classList.contains('magnetic')){
+      el.addEventListener('mouseenter', () => follower.classList.add('hover'));
+      el.addEventListener('mouseleave', () => follower.classList.remove('hover'));
+    }
   });
 }
 
-/* ── ADVANCED THREE.JS (3D Object Core) ── */
+// 3. Three.js Advanced WebGL (Refractive Blob - Awwwards Style)
 (function(){
   const canvas = document.getElementById('hero-canvas');
   const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(innerWidth, innerHeight);
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 100);
-  camera.position.z = 10;
+  const camera = new THREE.PerspectiveCamera(35, innerWidth/innerHeight, 0.1, 100);
+  camera.position.z = 12;
 
-  // Icosahedron (Premium abstract shape)
-  const geometry = new THREE.IcosahedronGeometry(3, 1);
+  // Icosahedron with Distorted Shader Material
+  const geometry = new THREE.IcosahedronGeometry(4, 20); // High detail for distortion
+  
   const material = new THREE.MeshPhysicalMaterial({
-    color: 0x00d4ff, wireframe: true, transparent: true, opacity: 0.3,
-    roughness: 0, metalness: 1, clearcoat: 1
+    color: 0xffffff,
+    metalness: 0,
+    roughness: 0.05,
+    transmission: 1, // Glass effect
+    ior: 1.5, // Refraction index
+    thickness: 2,
+    clearcoat: 1,
+    envMapIntensity: 1,
+    transparent: true,
+    opacity: 0.2
   });
+
+  // Adding refraction shader deformation (simplified logic)
+  material.onBeforeCompile = (shader) => {
+    shader.uniforms.uTime = { value: 0 };
+    shader.vertexShader = shader.vertexShader.replace('#include <void_main>',`
+      uniform float uTime;
+      varying vec3 vN;
+      varying vec3 vP;
+      // Noise function
+      vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+      vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+      vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
+      float snoise(vec3 v){ 
+        const vec2 C = vec2(1.0/6.0, 1.0/3.0) ;
+        const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+        vec3 i = floor(v + dot(v, D.yyy));
+        vec3 x0 = v - i + dot(i, C.xxx);
+        vec3 g = step(x0.yzx, x0.xyz);
+        vec3 l = 1.0 - g;
+        vec3 i1 = min( g.xyz, l.zxy );
+        vec3 i2 = max( g.xyz, l.zxy );
+        vec3 x1 = x0 - i1 + C.xxx;
+        vec3 x2 = x0 - i2 + C.yyy;
+        vec3 x3 = x0 - 1.0 + D.yyy;
+        i = mod289(i); 
+        vec4 p = permute( permute( permute( i.z + vec4(0.0, i1.z, i2.z, 1.0 )) + i.y + vec4(0.0, i1.y, i2.y, 1.0 )) + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
+        float n_ = 0.142857142857;
+        vec3 j = n_ * i - 7.0 * floor(n_ * i);
+        vec4 x_ = floor(j);
+        vec4 y_ = floor(j - 7.0 * x_ );
+        vec4 x = x_ *n_ + D.xxxx;
+        vec4 y = y_ *n_ + D.xxxx;
+        vec4 h = 1.0 - abs(x) - abs(y);
+        vec4 b0 = vec4( x.xy, y.xy );
+        vec4 b1 = vec4( x.zw, y.zw );
+        vec4 s0 = floor(b0)*2.0 + 1.0;
+        vec4 s1 = floor(b1)*2.0 + 1.0;
+        vec4 sh = -step(h, vec4(0.0));
+        vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;
+        vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;
+        vec3 p0 = vec3(a0.xy,h.x);
+        vec3 p1 = vec3(a0.zw,h.y);
+        vec3 p2 = vec3(a1.xy,h.z);
+        vec3 p3 = vec3(a1.zw,h.w);
+        vec4 norm = 1.79284291400159 - 0.85373472095314 * vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3));
+        p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+        vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+        m = m * m;
+        return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3) ) );
+      }
+      void main() {
+        vN = normal;
+        float noise = snoise(normal * 0.5 + uTime * 0.2);
+        vec3 newPos = position + normal * noise * 0.8;
+        vP = newPos;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(newPos, 1.0);
+    `);
+    material.userData.shader = shader;
+  };
+
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
-  // Particles around it
-  const pGeo = new THREE.BufferGeometry();
-  const pPos = new Float32Array(500 * 3);
-  for(let i=0; i<1500; i++) pPos[i] = (Math.random() - 0.5) * 20;
-  pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-  const pMat = new THREE.PointsMaterial({color: 0xffffff, size: 0.02, transparent: true, opacity: 0.3});
-  const particles = new THREE.Points(pGeo, pMat);
-  scene.add(particles);
+  // Lighting
+  const light1 = new THREE.DirectionalLight(0x00d4ff, 2); light1.position.set(5, 5, 5); scene.add(light1);
+  const light2 = new THREE.DirectionalLight(0xffd060, 1.5); light2.position.set(-5, -5, 2); scene.add(light2);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.2));
 
-  let targetX = 0, targetY = 0;
-  document.addEventListener('mousemove', e => {
-    targetX = (e.clientX / window.innerWidth - 0.5) * 2;
-    targetY = (e.clientY / window.innerHeight - 0.5) * 2;
-  });
+  let tx=0, ty=0;
+  document.addEventListener('mousemove',e=>{ tx=(e.clientX/innerWidth-0.5)*3; ty=-(e.clientY/innerHeight-0.5)*3; });
+  window.addEventListener('resize',()=>{ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
 
-  window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
-
-  gsap.ticker.add(() => {
-    mesh.rotation.y += 0.002;
-    mesh.rotation.x += 0.001;
-    particles.rotation.y -= 0.001;
+  gsap.ticker.add((time)=>{
+    if(material.userData.shader) material.userData.shader.uniforms.uTime.value = time;
     
-    // Parallax effect
-    mesh.position.x += (targetX * 2 - mesh.position.x) * 0.05;
-    mesh.position.y += (-targetY * 2 - mesh.position.y) * 0.05;
+    // Parallax mouse follow
+    mesh.position.x += (tx - mesh.position.x) * 0.03;
+    mesh.position.y += (ty - mesh.position.y) * 0.03;
+    mesh.rotation.y += 0.001;
     
     renderer.render(scene, camera);
   });
 })();
 
-/* ── RENDER DATA ── */
+// 4. GSAP Advanced Animations (Reveal & Scroll)
+function initGSAP() {
+  // Hero Entry
+  const tl = gsap.timeline({delay: 1.2});
+  tl.fromTo(".gs-hero", { y: 150, opacity: 0 }, { y: 0, opacity: 1, duration: 1.8, stagger: 0.15, ease: "power4.out" });
+
+  // Section Label & Titles Reveal on Scroll (Cinema Style)
+  document.querySelectorAll('section').forEach(sec => {
+    gsap.fromTo(sec.querySelectorAll('.slabel, .stitle'), { y: 80, opacity: 0 }, {
+      y: 0, opacity: 1, duration: 1.2, ease: "power3.out", stagger:0.2,
+      scrollTrigger: { trigger: sec, start: "top 80%" }
+    });
+    // Elements fade in
+    gsap.fromTo(sec.querySelectorAll('.gs-sec, .skcard, .pcard'), { y: 100, opacity: 0 }, {
+      y: 0, opacity: 1, duration: 1.5, ease: "power4.out", stagger: 0.1,
+      scrollTrigger: { trigger: sec, start: "top 70%" }
+    });
+  });
+
+  // Parallax About Image & Project Visuals
+  document.querySelectorAll('.aframe-img, .p-visual').forEach(el => {
+    gsap.to(el, {
+      yPercent: -20, ease: "none",
+      scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: true }
+    });
+  });
+}
+
+/* ── RENDER DATA LOGIC ── */
 function renderAll(){ 
+  // Hero
   const h=D.hero; document.getElementById('hero-name').textContent=h.name; document.getElementById('hero-eyebrow').textContent=h.eyebrow; document.getElementById('hero-role').innerHTML=h.role;
+  // About
   const a=D.about; document.getElementById('about-p1').innerHTML=a.p1; document.getElementById('about-p2').innerHTML=a.p2; document.getElementById('atags').innerHTML=a.tags.map(t=>`<span class="tag">${t}</span>`).join('');
-  
-  document.getElementById('skills-grid').innerHTML=D.skills.map(s=>`<div class="skcard gs-sec"><div class="sk-icon">${s.icon}</div><div class="sk-name">${s.name}</div><div class="sk-bar"><div class="sk-fill" style="width:${s.lv}%"></div></div></div>`).join('');
-  
+  document.getElementById('s1n').textContent=a.stats[0].n; document.getElementById('s1l').textContent=a.stats[0].l;
+  // Skills (Updated to show descriptions)
+  document.getElementById('skills-grid').innerHTML=D.skills.map(s=>`
+    <div class="skcard gs-sec hover-target">
+      <div class="sk-icon">${s.icon}</div>
+      <div class="sk-name">${s.name}</div>
+      <p class="sk-desc">${s.desc}</p>
+    </div>`).join('');
+  // Projects (Update to Cinematic Style)
   document.getElementById('projects-grid').innerHTML=D.projects.map((p,i)=>`
     <div class="pcard gs-sec magnetic">
       <div class="pbody">
         <h3 class="ptitle">${p.title}</h3>
         <p class="pdesc">${p.desc}</p>
         <div class="ptech">${p.tech.map(t=>`<span class="ttag">${t}</span>`).join('')}</div>
-        <a href="${p.link}" class="p-link">شاهد المشروع <span>↗</span></a>
+        <a href="${p.link}" class="p-link" ${p.link?'target="_blank"':''}>عرض المشروع <span>↗</span></a>
       </div>
-      <div class="p-visual"><div class="p-num">0${i+1}</div></div>
+      <div class="p-visual hover-target"><div class="pnum">0${i+1}</div></div>
     </div>`).join('');
-
-  document.getElementById('clinks').innerHTML=D.contacts.map(c=>`<a href="${c.href}" class="clink magnetic" title="${c.label}">${c.icon}</a>`).join('');
+  // Contacts
+  document.getElementById('clinks').innerHTML=D.contacts.map(c=>`<a href="${c.href}" target="_blank" class="clink hover-target" title="${c.label}">${c.icon}</a>`).join('');
+  document.getElementById('cnote').innerHTML=D.contact.note;
 }
 
-/* ── INIT ── */
+/* ── ADMIN LOGIC (Fixed URL key & Saving) ── */
+function checkAdmin(){
+  const p=new URLSearchParams(location.search);
+  for(const [key] of p){ if(key===PASS){ history.replaceState({},document.title,location.pathname); openAdmin(); return; } }
+}
+
+function openAdmin(){
+  document.getElementById('adm-ov').classList.add('open');
+  syncFields(); 
+  renderAdminSkills(); renderAdminProjects(); renderAdminContacts();
+}
+
+// Nav scroll effect
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>50));
+
+// Admin Tabs
+document.querySelectorAll('.adm-navbtn').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.adm-navbtn,.tpanel').forEach(el=>el.classList.remove('active'));
+  b.classList.add('active'); document.getElementById('tab-'+b.dataset.tab).classList.add('active');
+}));
+
+// Sync inputs with current data D
+const v=id=>document.getElementById(id).value;
+function syncFields(){
+  const h=D.hero, a=D.about;
+  document.getElementById('eh-name').value=h.name; document.getElementById('eh-eye').value=h.eyebrow; document.getElementById('eh-role').value=h.role;
+  document.getElementById('ea-p1').value=a.p1; document.getElementById('ea-p2').value=a.p2; document.getElementById('ea-tags').value=a.tags.join(',');
+}
+
+// Fixed Saving Logic
+function save(key){
+  if(key==='hero'){
+    D.hero={name:v('eh-name'),eyebrow:v('eh-eye'),role:v('eh-role')};
+  } else if(key==='about'){
+    D.about.p1=v('ea-p1'); D.about.p2=v('ea-p2');
+    D.about.tags=v('ea-tags').split(',').map(t=>t.trim()).filter(Boolean);
+  } else if(key==='skills'){
+    D.skills = Array.from(document.querySelectorAll('#skills-edit .pe-card')).map(card=>{
+      return {
+        icon: card.querySelector('.sk-icon-in').value,
+        name: card.querySelector('.sk-name-in').value,
+        desc: card.querySelector('.sk-desc-in').value
+      }
+    });
+  } else if(key==='projects'){
+    D.projects = Array.from(document.querySelectorAll('#proj-edit .pe-card')).map(card=>{
+      return {
+        title: card.querySelector('.pd-title').value,
+        desc: card.querySelector('.pd-desc').value,
+        link: card.querySelector('.pd-link').value,
+        tech: card.querySelector('.pd-tech').value.split(',').map(t=>t.trim()).filter(Boolean),
+        status: 'LIVE' // Default
+      }
+    });
+  } else if(key==='contact'){
+    D.contacts = Array.from(document.querySelectorAll('#cont-edit .srow')).map(row=>{
+      const inp = row.querySelectorAll('input');
+      return { icon: inp[0].value, label: inp[1].value, href: inp[2].value }
+    });
+  }
+  
+  saveToStorage(); // حفظ في الـ LocalStorage
+  // sbSave(key); // تفعيل هذا السطر إذا ربطت Supabase
+  renderAll(); // تحديث الموقع فوراً
+}
+
+// Render Admin Sections
+function renderAdminSkills(){
+  document.getElementById('skills-edit').innerHTML=D.skills.map((s,i)=>`
+    <div class="pe-card">
+      <span class="pe-num">0${i+1}</span>
+      <div class="srow"><input value="${s.icon}" style="width:50px;flex:none" class="sk-icon-in" placeholder="أيقونة"><input value="${s.name}" class="sk-name-in" placeholder="اسم التقنية"></div>
+      <div class="fg" style="margin:0"><textarea class="sk-desc-in" placeholder="وصف سريع...">${s.desc}</textarea></div>
+      <button class="delbtn magnetic" onclick="D.skills.splice(${i},1);renderAdminSkills()">✕</button>
+    </div>`).join('');
+}
+function addSkill(){ D.skills.push({icon:'⚡',name:'مهارة',desc:''}); renderAdminSkills(); }
+
+function renderAdminProjects(){
+  document.getElementById('proj-edit').innerHTML=D.projects.map((p,i)=>`
+    <div class="pe-card">
+      <span class="pe-num">0${i+1}</span>
+      <div class="fg"><label>العنوان</label><input class="pd-title" value="${p.title}"></div>
+      <div class="fg"><label>الوصف</label><textarea class="pd-desc">${p.desc}</textarea></div>
+      <div class="fg"><label>الرابط</label><input class="pd-link" value="${p.link}"></div>
+      <div class="fg"><label>التقنيات (فواصل)</label><input class="pd-tech" value="${p.tech.join(',')}"></div>
+      <button class="delbtn magnetic" onclick="D.projects.splice(${i},1);renderAdminProjects()">✕</button>
+    </div>`).join('');
+}
+function addProject(){ D.projects.push({title:'جديد',desc:'',tech:[],link:''}); renderAdminProjects(); }
+
+function renderAdminContacts(){
+  document.getElementById('cont-edit').innerHTML=D.contacts.map((c,i)=>`
+    <div class="srow"><input value="${c.icon}" style="width:50px;flex:none"><input value="${c.label}"><input value="${c.href}"><button class="delbtn magnetic" onclick="D.contacts.splice(${i},1);renderAdminContacts()">✕</button></div>`).join('');
+}
+function addContact(){ D.contacts.push({icon:'📧',label:'جديد',href:''}); renderAdminContacts(); }
+
+// Toast
+function toast(m){
+  const t=document.createElement('div'); t.textContent=m;
+  Object.assign(t.style,{position:'fixed',bottom:'3rem',left:'50%',transform:'translateX(-50%)',background:'#fff',color:'#000',padding:'1rem 3rem',borderRadius:'50px',zIndex:'1000000',fontFamily:'Space Mono',fontSize:'.8rem',letterSpacing:'2px',textTransform:'uppercase',opacity:'0',transition:'all 0.4s'});
+  document.body.appendChild(t); setTimeout(()=>t.style.opacity='1',10);
+  setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),400)},2500);
+}
+
+/* ── INIT ON LOAD ── */
 window.onload = () => {
+  // await sbLoad(); // تفعيل إذا ربطت Supabase
   renderAll();
+  checkAdmin();
+  initInteractions();
+  
+  // Exit Loader
   setTimeout(() => {
+    document.getElementById('ld-txt').style.opacity = '0';
     document.getElementById('loader').classList.add('out');
-    initInteractions();
-  }, 1200);
+    setTimeout(()=>document.getElementById('loader').remove(), 1000);
+    initGSAP(); // Start GSAP after loader
+  }, 1500);
 };
 </script>
 </body>
