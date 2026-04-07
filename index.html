@@ -55,23 +55,23 @@ section{position:relative;z-index:10;padding:10rem 5rem;min-height:100vh;display
 .sec-label{font-family:'Space Mono',monospace;color:var(--accent);font-size:.9rem;letter-spacing:5px;margin-bottom:2rem;display:inline-block;border-bottom:1px solid var(--border);padding-bottom:.5rem}
 
 /* HERO */
-.hero-title{font-family:'Syncopate',sans-serif;font-size:clamp(4rem,10vw,12rem);font-weight:900;line-height:.9;text-transform:uppercase;margin-bottom:2rem}
+.hero-title{font-family:'Syncopate',sans-serif;font-size:clamp(3.5rem,10vw,12rem);font-weight:900;line-height:.9;text-transform:uppercase;margin-bottom:2rem}
 .hero-title .outline{color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.3)}
-.hero-desc{font-size:1.5rem;max-width:600px;color:#aaa;line-height:1.8;margin-bottom:3rem;border-right:3px solid var(--accent);padding-right:1.5rem}
+.hero-desc{font-size:clamp(1.1rem, 3vw, 1.5rem);max-width:600px;color:#aaa;line-height:1.8;margin-bottom:3rem;border-right:3px solid var(--accent);padding-right:1.5rem}
 .type-target{min-height:1.5em}
 
 /* ABOUT */
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
-.about-text{font-size:1.8rem;line-height:1.8;font-weight:300}
+.about-text{font-size:clamp(1.2rem, 3vw, 1.8rem);line-height:1.8;font-weight:300}
 .about-text strong{color:var(--accent);font-weight:900}
-.stats-box{display:flex;gap:3rem;margin-top:3rem}
-.stat{border-top:1px solid var(--border);padding-top:1rem}
-.stat-num{font-family:'Syncopate',sans-serif;font-size:3.5rem;font-weight:700}
+.stats-box{display:flex;gap:3rem;margin-top:3rem;flex-wrap:wrap}
+.stat{border-top:1px solid var(--border);padding-top:1rem;flex:1;min-width:120px}
+.stat-num{font-family:'Syncopate',sans-serif;font-size:clamp(2.5rem, 5vw, 3.5rem);font-weight:700}
 .stat-lbl{font-family:'Space Mono',monospace;font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px}
 
 /* SKILLS */
 .skills-wrap{display:flex;flex-wrap:wrap;gap:1rem}
-.skill-pill{border:1px solid rgba(255,255,255,.1);padding:1.5rem 3rem;border-radius:100px;font-family:'Space Mono',monospace;font-size:1.2rem;transition:all .4s;background:rgba(0,0,0,.5);backdrop-filter:blur(5px)}
+.skill-pill{border:1px solid rgba(255,255,255,.1);padding:1rem 2rem;border-radius:100px;font-family:'Space Mono',monospace;font-size:clamp(0.9rem, 2vw, 1.2rem);transition:all .4s;background:rgba(0,0,0,.5);backdrop-filter:blur(5px)}
 .skill-pill:hover{border-color:var(--accent);background:var(--accent);color:var(--bg);transform:translateY(-5px) scale(1.05)}
 
 /* PROJECTS */
@@ -82,11 +82,11 @@ section{position:relative;z-index:10;padding:10rem 5rem;min-height:100vh;display
 .proj-row:hover{padding-right:2rem;border-bottom-color:var(--accent)}
 .proj-num{font-family:'Space Mono',monospace;color:#555;font-size:1.5rem;transition:color .4s}
 .proj-row:hover .proj-num{color:var(--accent)}
-.proj-name{font-family:'Syncopate',sans-serif;font-size:clamp(1.5rem,3vw,3.5rem);font-weight:700;text-transform:uppercase}
-.proj-tech{font-family:'Space Mono',monospace;color:var(--muted);font-size:.9rem;margin-top:.5rem}
-.proj-thumb{width:100px;height:65px;object-fit:cover;border:1px solid var(--border);opacity:0;transition:opacity .4s;filter:grayscale(1)}
+.proj-name{font-family:'Syncopate',sans-serif;font-size:clamp(1.2rem,3vw,3.5rem);font-weight:700;text-transform:uppercase}
+.proj-tech{font-family:'Space Mono',monospace;color:var(--muted);font-size:.85rem;margin-top:.5rem}
+.proj-thumb{width:120px;height:80px;object-fit:cover;border:1px solid var(--border);opacity:0;transition:opacity .4s;filter:grayscale(1)}
 .proj-row:hover .proj-thumb{opacity:1;filter:grayscale(0)}
-.proj-thumb-placeholder{width:100px;height:65px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.5rem;opacity:0;transition:opacity .4s}
+.proj-thumb-placeholder{width:120px;height:80px;border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:1.5rem;opacity:0;transition:opacity .4s}
 .proj-row:hover .proj-thumb-placeholder{opacity:1}
 .proj-arrow{font-size:2rem;opacity:0;transform:translateX(-20px);transition:all .4s;color:var(--accent)}
 .proj-row:hover .proj-arrow{opacity:1;transform:translateX(0)}
@@ -97,42 +97,56 @@ section{position:relative;z-index:10;padding:10rem 5rem;min-height:100vh;display
 
 /* CONTACT */
 .contact-wrap{text-align:center}
-.contact-big{font-family:'Syncopate',sans-serif;font-size:clamp(3rem,8vw,10rem);color:transparent;-webkit-text-stroke:1px var(--text);transition:all .4s;line-height:1}
+.contact-big{font-family:'Syncopate',sans-serif;font-size:clamp(2.5rem,8vw,10rem);color:transparent;-webkit-text-stroke:1px var(--text);transition:all .4s;line-height:1}
 .contact-big:hover{color:var(--accent);-webkit-text-stroke:0;text-shadow:0 0 30px rgba(0,255,204,.5)}
-.contact-links{display:flex;justify-content:center;gap:3rem;margin-top:4rem;flex-wrap:wrap}
-.clink{font-family:'Space Mono',monospace;font-size:1.2rem;color:#aaa;text-decoration:none;text-transform:uppercase;letter-spacing:2px;transition:color .3s}
-.clink:hover{color:var(--accent)}
+.contact-links{display:flex;justify-content:center;gap:2rem;margin-top:4rem;flex-wrap:wrap}
+.clink{font-family:'Space Mono',monospace;font-size:clamp(0.9rem, 2vw, 1.2rem);color:#aaa;text-decoration:none;text-transform:uppercase;letter-spacing:2px;transition:color .3s;background:var(--surface);padding:1rem 2rem;border-radius:50px;border:1px solid rgba(255,255,255,0.05)}
+.clink:hover{color:var(--accent);border-color:var(--accent)}
 
 /* FOOTER */
 footer{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);padding:2rem 5rem;display:flex;justify-content:space-between;align-items:center}
 .footer-txt{font-family:'Space Mono',monospace;font-size:.7rem;color:#555;letter-spacing:2px}
 
-/* ══════════════════════════════
-   ADMIN DASHBOARD — PREMIUM
-══════════════════════════════ */
-#adm-overlay{position:fixed;inset:0;z-index:100000;pointer-events:none;display:flex;justify-content:flex-start}
-.adm-bg{position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);opacity:0;transition:opacity .5s;pointer-events:none}
-.adm-sidebar{
-  width:min(100vw,600px);height:100%;
-  background:#0a0a0a;
-  border-left:1px solid rgba(0,255,204,.15);
-  box-shadow:-30px 0 80px rgba(0,255,204,.05);
-  display:flex;flex-direction:column;
-  transform:translateX(110%);
-  transition:transform .6s cubic-bezier(.16,1,.3,1);
-  pointer-events:auto;
+/* ══════════════════════════════════
+   ADMIN DASHBOARD — STRICT HIDDEN
+══════════════════════════════════ */
+#adm-overlay{
+  position:fixed; inset:0; z-index:100000;
+  visibility: hidden; /* مخفية تماماً من جذورها */
+  opacity: 0;
+  transition: visibility 0.5s, opacity 0.5s;
 }
-#adm-overlay.open{pointer-events:auto}
-#adm-overlay.open .adm-bg{opacity:1;pointer-events:auto}
-#adm-overlay.open .adm-sidebar{transform:translateX(0)}
+#adm-overlay.open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+.adm-bg {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+}
+.adm-sidebar {
+  position: absolute; top: 0; right: 0;
+  width: min(100vw, 600px); height: 100%;
+  background: #0a0a0a;
+  border-left: 1px solid rgba(0,255,204,0.15);
+  box-shadow: -10px 0 50px rgba(0,0,0,0.8);
+  display: flex; flex-direction: column; overflow: hidden;
+  transform: translateX(100%); /* بتختفي لليمين برا الشاشة */
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#adm-overlay.open .adm-sidebar {
+  transform: translateX(0); /* تظهر بنعومة */
+}
 
+/* ADMIN INTERNALS */
 .adm-head{padding:1.5rem 2rem;border-bottom:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
 .adm-logo{font-family:'Syncopate',sans-serif;font-size:1rem;font-weight:700;color:var(--accent);letter-spacing:3px}
 .adm-sb-status{display:flex;align-items:center;gap:.5rem;font-family:'Space Mono',monospace;font-size:.65rem;color:var(--muted)}
 .adm-dot{width:6px;height:6px;border-radius:50%;background:#ffd060;animation:blink 1.5s infinite}
 .adm-dot.ok{background:#00ff88;animation:none}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-.adm-close-btn{background:none;border:1px solid rgba(255,255,255,.1);color:var(--muted);font-size:1.1rem;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.adm-close-btn{background:none;border:1px solid rgba(255,255,255,.1);color:var(--muted);font-size:1.1rem;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s; border-radius:50%;}
 .adm-close-btn:hover{border-color:var(--danger);color:var(--danger)}
 
 /* NAV TABS */
@@ -148,68 +162,83 @@ footer{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);p
 .tpanel.active{display:block;animation:fadein .3s ease}
 @keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .adm-section-title{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid rgba(0,255,204,.1)}
-.adm-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);padding:1.5rem;margin-bottom:1.5rem}
+.adm-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);padding:1.5rem;margin-bottom:1.5rem;border-radius:10px}
 
 /* FORM */
 .fg{margin-bottom:1.2rem}
 .fg label{display:block;font-family:'Space Mono',monospace;font-size:.6rem;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:.5rem}
-.fg input,.fg textarea,.fg select{width:100%;padding:.8rem 1rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:#fff;font-family:'Cairo',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s,background .2s}
+.fg input,.fg textarea,.fg select{width:100%;padding:.8rem 1rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:#fff;font-family:'Cairo',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s,background .2s;border-radius:6px}
 .fg input:focus,.fg textarea:focus{border-color:var(--accent);background:rgba(0,255,204,.02)}
 .fg textarea{min-height:90px;resize:vertical}
 .fg select{cursor:pointer}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 
 /* BUTTONS */
-.savebtn{padding:.9rem 2rem;background:var(--accent);color:var(--bg);font-family:'Syncopate',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:2px;border:none;cursor:pointer;transition:all .2s;text-transform:uppercase}
-.savebtn:hover{box-shadow:0 0 20px rgba(0,255,204,.4);transform:translateY(-1px)}
+.savebtn{width:100%;padding:1rem 2rem;background:var(--accent);color:var(--bg);font-family:'Syncopate',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:2px;border:none;cursor:pointer;transition:all .2s;text-transform:uppercase;border-radius:8px;margin-top:1rem}
+.savebtn:hover{box-shadow:0 0 20px rgba(0,255,204,.4);transform:translateY(-2px)}
 .savebtn:disabled{opacity:.4;cursor:not-allowed}
-.delbtn{width:30px;height:30px;background:rgba(255,68,68,.08);border:1px solid rgba(255,68,68,.3);color:var(--danger);cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.delbtn{width:32px;height:32px;background:rgba(255,68,68,.08);border:1px solid rgba(255,68,68,.3);color:var(--danger);cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;border-radius:6px}
 .delbtn:hover{background:rgba(255,68,68,.2)}
-.addrow{width:100%;padding:.7rem;background:transparent;border:1px dashed rgba(0,255,204,.2);color:var(--muted);font-family:'Space Mono',monospace;font-size:.7rem;cursor:pointer;letter-spacing:1px;transition:all .2s;margin-top:.8rem}
+.addrow{width:100%;padding:.8rem;background:transparent;border:1px dashed rgba(0,255,204,.2);color:var(--muted);font-family:'Space Mono',monospace;font-size:.75rem;cursor:pointer;letter-spacing:1px;transition:all .2s;margin-top:.8rem;border-radius:6px}
 .addrow:hover{border-color:var(--accent);color:var(--accent);background:rgba(0,255,204,.03)}
 
 /* SKILL ROWS */
 .sk-row{display:flex;gap:.6rem;align-items:center;margin-bottom:.5rem}
 .sk-row input{flex:1}
-.sk-icon-inp{width:52px;flex:none;text-align:center}
-.sk-lv-inp{width:65px;flex:none}
 
 /* PROJECT CARDS IN ADMIN */
-.proj-adm-card{border:1px solid rgba(255,255,255,.06);margin-bottom:1rem;overflow:hidden}
+.proj-adm-card{border:1px solid rgba(255,255,255,.06);margin-bottom:1rem;overflow:hidden;border-radius:8px}
 .proj-adm-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;background:rgba(255,255,255,.02);border-bottom:1px solid rgba(255,255,255,.05)}
 .proj-adm-name{font-family:'Syncopate',sans-serif;font-size:.8rem;letter-spacing:1px;color:var(--text)}
 .proj-adm-body{padding:1.2rem}
 
 /* IMAGE UPLOAD */
-.img-upload-area{border:1px dashed rgba(0,255,204,.3);padding:1.5rem;text-align:center;cursor:pointer;transition:all .2s;position:relative;margin-bottom:1rem}
+.img-upload-area{border:1px dashed rgba(0,255,204,.3);padding:1.5rem;text-align:center;cursor:pointer;transition:all .2s;position:relative;margin-bottom:1rem;border-radius:6px}
 .img-upload-area:hover{border-color:var(--accent);background:rgba(0,255,204,.02)}
 .img-upload-area input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.img-preview{width:100%;height:120px;object-fit:cover;border:1px solid rgba(0,255,204,.2);margin-top:.8rem;display:none}
+.img-preview{width:100%;height:120px;object-fit:cover;border:1px solid rgba(0,255,204,.2);margin-top:.8rem;display:none;border-radius:4px}
 .img-preview.show{display:block}
 .img-upload-txt{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--muted);letter-spacing:1px}
 .img-upload-txt span{color:var(--accent)}
-.upload-progress{height:2px;background:rgba(255,255,255,.05);margin-top:.8rem;display:none}
-.upload-progress-bar{height:100%;background:var(--accent);width:0;transition:width .3s}
-.upload-progress.show{display:block}
 
 /* CONTACT ROWS */
 .ct-row{display:flex;gap:.6rem;align-items:center;margin-bottom:.5rem}
 .ct-row input{flex:1}
 .ct-icon-inp{width:48px;flex:none;text-align:center}
-.ct-lbl-inp{width:90px;flex:none}
 
 /* TOAST */
-.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--accent);color:var(--bg);padding:.7rem 2rem;font-family:'Space Mono',monospace;font-size:.75rem;letter-spacing:2px;z-index:999999;opacity:0;transition:all .4s;pointer-events:none}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:var(--bg);padding:.8rem 2.5rem;font-family:'Space Mono',monospace;font-size:.8rem;letter-spacing:2px;z-index:999999;opacity:0;transition:all .4s;pointer-events:none;border-radius:50px;font-weight:700}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.error{background:var(--danger);color:#fff}
 
+/* ══════════════════════════════════
+   MOBILE RESPONSIVENESS (PERFECTED)
+══════════════════════════════════ */
 @media(max-width:900px){
-  nav{padding:1.5rem 2rem}.nav-links{display:none}
-  section{padding:6rem 2rem}.about-grid{grid-template-columns:1fr}
-  .hero-title{font-size:15vw}.proj-row{grid-template-columns:1fr;gap:1rem}
-  .cursor-dot,.cursor-ring{display:none}
-  .adm-sidebar{width:100vw}
-  footer{padding:2rem}
+  nav{padding:1.5rem 2rem}
+  .nav-links{display:none}
+  section{padding:5rem 2rem}
+  .about-grid{grid-template-columns:1fr; gap:3rem}
+  .hero-title{font-size:13vw; margin-top:2rem}
+  
+  /* Projects on Mobile: Stacked gracefully */
+  .proj-row{
+    display:flex; flex-direction:column; align-items:flex-start; 
+    gap:1.5rem; padding:2rem 0;
+  }
+  .proj-row > div:nth-child(2) { width: 100%; }
+  .proj-thumb, .proj-thumb-placeholder { width:100%; height:200px; border-radius:10px; margin: 1rem 0; }
+  .proj-row > div:last-child {
+    flex-direction:row !important; width:100%; justify-content:space-between; align-items:center;
+  }
+  .proj-row:hover{padding-right:0;} /* Remove hover shift on mobile to prevent overflow */
+  
+  /* Hide Custom Cursor on Touch Devices */
+  .cursor-dot, .cursor-ring { display:none !important; }
+  *{cursor:auto !important}
+  
+  /* Footer & Forms */
+  footer{padding:2rem; flex-direction:column; gap:1rem; text-align:center}
   .g2{grid-template-columns:1fr}
 }
 </style>
@@ -221,7 +250,6 @@ footer{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);p
 <div id="webgl"></div>
 <div class="marquee-wrap"><div class="marquee-txt">MAZEN DEVELOPER • FULL STACK • CAIRO • MAZEN DEVELOPER • FULL STACK • CAIRO • </div></div>
 
-<!-- NAV -->
 <nav>
   <div class="logo" id="nav-logo">MZ<span>N</span></div>
   <div class="nav-links">
@@ -232,7 +260,6 @@ footer{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);p
   </div>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
   <div class="container">
     <div class="sec-label type-target" id="hero-eyebrow"></div>
@@ -244,14 +271,13 @@ footer{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);p
   </div>
 </section>
 
-<!-- ABOUT -->
 <section id="about">
   <div class="container about-grid">
     <div>
       <div class="sec-label">/ 01 ABOUT</div>
       <h2 class="about-text" id="about-text"></h2>
       <div class="stats-box">
-        <div class="stat"><div class="stat-num" id="s1n">16</div><div class="stat-lbl" id="s1l">Years of Life</div></div>
+        <div class="stat"><div class="stat-num" id="s1n">17</div><div class="stat-lbl" id="s1l">Years of Life</div></div>
         <div class="stat"><div class="stat-num" id="s2n">2+</div><div class="stat-lbl" id="s2l">Projects Live</div></div>
         <div class="stat"><div class="stat-num" id="s3n">∞</div><div class="stat-lbl" id="s3l">Ideas</div></div>
       </div>
@@ -260,7 +286,6 @@ footer{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);p
   </div>
 </section>
 
-<!-- SKILLS -->
 <section id="skills">
   <div class="container">
     <div class="sec-label">/ 02 CORE TECH</div>
@@ -268,7 +293,6 @@ footer{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);p
   </div>
 </section>
 
-<!-- PROJECTS -->
 <section id="projects">
   <div class="container">
     <div class="sec-label">/ 03 SELECTED WORKS</div>
@@ -276,7 +300,6 @@ footer{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);p
   </div>
 </section>
 
-<!-- CONTACT -->
 <section id="contact">
   <div class="container contact-wrap">
     <h2 class="contact-big hl" id="contact-big">INITIATE<br>SEQUENCE</h2>
@@ -289,10 +312,8 @@ footer{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);p
   <div class="footer-txt" id="footer-logo">MZN</div>
 </footer>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- ADMIN -->
 <div id="adm-overlay">
   <div class="adm-bg" onclick="closeAdmin()"></div>
   <div class="adm-sidebar">
@@ -315,7 +336,6 @@ footer{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);p
 
     <div class="adm-content">
 
-      <!-- HERO TAB -->
       <div class="tpanel active" id="tab-hero">
         <div class="adm-section-title">HERO SECTION</div>
         <div class="adm-card">
@@ -324,10 +344,9 @@ footer{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);p
           <div class="fg"><label>اسم السطر الثاني (Outline)</label><input id="eh-n2"></div>
           <div class="fg"><label>الوصف</label><textarea id="eh-role"></textarea></div>
         </div>
-        <button class="savebtn" onclick="save('hero')">⚡ SAVE HERO</button>
+        <button class="savebtn" onclick="save('hero')">⚡ UPDATE HERO</button>
       </div>
 
-      <!-- ABOUT TAB -->
       <div class="tpanel" id="tab-about">
         <div class="adm-section-title">ABOUT SECTION</div>
         <div class="adm-card">
@@ -344,36 +363,32 @@ footer{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);p
             <div class="fg"><label>وصف 3</label><input id="es3l"></div>
           </div>
         </div>
-        <button class="savebtn" onclick="save('about')">⚡ SAVE ABOUT</button>
+        <button class="savebtn" onclick="save('about')">⚡ UPDATE ABOUT</button>
       </div>
 
-      <!-- SKILLS TAB -->
       <div class="tpanel" id="tab-skills">
         <div class="adm-section-title">SKILLS</div>
         <div class="adm-card">
           <div id="skills-edit"></div>
           <button class="addrow" onclick="addSkill()">＋ ADD SKILL</button>
         </div>
-        <button class="savebtn" onclick="save('skills')">⚡ SAVE SKILLS</button>
+        <button class="savebtn" onclick="save('skills')">⚡ UPDATE SKILLS</button>
       </div>
 
-      <!-- PROJECTS TAB -->
       <div class="tpanel" id="tab-projects">
-        <div class="adm-section-title">PROJECTS — اضغط على المشروع لتعديله</div>
+        <div class="adm-section-title">PROJECTS</div>
         <div id="proj-edit"></div>
         <button class="addrow" onclick="addProject()">＋ ADD PROJECT</button>
-        <br><br>
-        <button class="savebtn" onclick="save('projects')">⚡ SAVE PROJECTS</button>
+        <button class="savebtn" onclick="save('projects')">⚡ UPDATE PROJECTS</button>
       </div>
 
-      <!-- CONTACT TAB -->
       <div class="tpanel" id="tab-contact">
         <div class="adm-section-title">CONTACT LINKS</div>
         <div class="adm-card">
           <div id="cont-edit"></div>
           <button class="addrow" onclick="addContact()">＋ ADD LINK</button>
         </div>
-        <button class="savebtn" onclick="save('contact')">⚡ SAVE CONTACT</button>
+        <button class="savebtn" onclick="save('contact')">⚡ UPDATE CONTACT</button>
       </div>
 
     </div>
@@ -386,7 +401,7 @@ footer{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);p
 ══════════════════════════════════ */
 const SB_URL = 'https://xiotefuhpazlxzexudre.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhpb3RlZnVocGF6bHh6ZXh1ZHJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMTg0NjEsImV4cCI6MjA4OTc5NDQ2MX0.j9XhS7XqJNOHP7TS-3uB0yhTKx4jovG0rKrycMjDDDA';
-const PASS   = 'mazen2026';
+const PASS   = 'mazen2025';
 const SBH    = {'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};
 const BUCKET = `${SB_URL}/storage/v1/object/public/portfolio-images`;
 
@@ -395,7 +410,7 @@ const BUCKET = `${SB_URL}/storage/v1/object/public/portfolio-images`;
 ══════════════════════════════════ */
 let D = {
   hero:{ eyebrow:'SYSTEM ARCHITECT // FULL STACK', name1:'MAZEN', name2:'DEVELOPER', role:'أبني أنظمة تفاعلية معقدة. متخصص في تحويل الأفكار لكود حقيقي باستخدام أحدث تقنيات الويب.' },
-  about:{ text:'مطور Full Stack من القاهرة، <strong>16 سنة</strong>. تركيزي على هندسة الأنظمة التفاعلية وتطبيقات الويب باستخدام <strong>Next.js, React, Supabase</strong>.', stats:[{n:'16',l:'Years of Life'},{n:'2+',l:'Projects Live'},{n:'∞',l:'Ideas'}] },
+  about:{ text:'مطور Full Stack من القاهرة، <strong>17 سنة</strong>. تركيزي على هندسة الأنظمة التفاعلية وتطبيقات الويب باستخدام <strong>Next.js, React, Supabase</strong>.', stats:[{n:'17',l:'Years of Life'},{n:'2+',l:'Projects Live'},{n:'∞',l:'Ideas'}] },
   skills:['NEXT.JS 14','REACT','SUPABASE','TYPESCRIPT','TAILWIND','CLOUDFLARE R2','VERCEL','NODE.JS'],
   projects:[
     {name:'MAKE FUTURE CENTER',tech:'Next.js / Supabase / Video Streaming',status:'LIVE',link:'',img:''},
@@ -434,48 +449,29 @@ async function sbSave(key){
 }
 function setSb(ok){
   document.getElementById('adm-dot').className='adm-dot'+(ok?' ok':'');
-  document.getElementById('adm-sb-txt').textContent=ok?'SUPABASE CONNECTED':'OFFLINE MODE';
+  document.getElementById('adm-sb-txt').textContent=ok?'DATABASE CONNECTED':'OFFLINE MODE';
 }
 
 /* ══════════════════════════════════
-   IMAGE UPLOAD TO SUPABASE STORAGE
+   IMAGE UPLOAD TO SUPABASE
 ══════════════════════════════════ */
 async function uploadImage(file, projIndex){
   const ext=file.name.split('.').pop();
   const filename=`project-${projIndex}-${Date.now()}.${ext}`;
-  const bar=document.getElementById(`prog-${projIndex}`);
-  const barFill=document.getElementById(`prog-fill-${projIndex}`);
-  if(bar){ bar.className='upload-progress show'; }
-
   try{
-    // Simulate progress
-    let prog=0;
-    const interval=setInterval(()=>{ prog=Math.min(prog+10,90); if(barFill) barFill.style.width=prog+'%'; },100);
-
     const r=await fetch(`${SB_URL}/storage/v1/object/portfolio-images/${filename}`,{
       method:'POST',
       headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':file.type,'x-upsert':'true'},
       body:file
     });
-
-    clearInterval(interval);
-    if(barFill) barFill.style.width='100%';
-
     if(!r.ok) throw new Error(r.status);
     const url=`${BUCKET}/${filename}`;
     D.projects[projIndex].img=url;
-
-    // Show preview
     const preview=document.getElementById(`prev-${projIndex}`);
     if(preview){ preview.src=url; preview.className='img-preview show'; }
-
-    setTimeout(()=>{ if(bar) bar.className='upload-progress'; },1000);
     toast('IMAGE UPLOADED ✓');
-    return url;
   }catch(e){
-    if(bar) bar.className='upload-progress';
     toast('UPLOAD ERROR ⚠',true);
-    console.error(e);
   }
 }
 
@@ -484,7 +480,6 @@ async function uploadImage(file, projIndex){
 ══════════════════════════════════ */
 function renderSkills(){
   document.getElementById('skills-grid').innerHTML=D.skills.map(s=>`<div class="skill-pill hl">${s}</div>`).join('');
-  // Re-init GSAP on new elements
   gsap.utils.toArray('.skill-pill').forEach(el=>{
     gsap.from(el,{scrollTrigger:{trigger:el,start:'top 90%'},y:40,opacity:0,duration:.6,ease:'power3.out'});
   });
@@ -515,7 +510,7 @@ function renderProjects(){
 
 function renderContact(){
   document.getElementById('contact-links').innerHTML=D.contacts.map(c=>`
-    <a href="${c.href}" class="clink hl">${c.icon} ${c.label}</a>`).join('');
+    <a href="${c.href}" target="_blank" class="clink hl">${c.icon} ${c.label}</a>`).join('');
 }
 
 function applyHero(){
@@ -570,7 +565,7 @@ function renderAdminProjects(){
         <div class="fg"><label>اسم المشروع</label><input value="${p.name||''}" onchange="D.projects[${i}].name=this.value;this.closest('.proj-adm-card').querySelector('.proj-adm-name').textContent=this.value"></div>
         <div class="fg"><label>التقنيات</label><input value="${p.tech||''}" onchange="D.projects[${i}].tech=this.value"></div>
         <div class="g2">
-          <div class="fg"><label>🔗 الرابط (اختياري)</label><input value="${p.link||''}" placeholder="https://..." onchange="D.projects[${i}].link=this.value"></div>
+          <div class="fg"><label>🔗 الرابط</label><input value="${p.link||''}" placeholder="https://..." onchange="D.projects[${i}].link=this.value"></div>
           <div class="fg"><label>الحالة</label>
             <select onchange="D.projects[${i}].status=this.value">
               <option ${p.status==='LIVE'?'selected':''}>LIVE</option>
@@ -585,7 +580,6 @@ function renderAdminProjects(){
             <div class="img-upload-txt">اسحب صورة هنا أو <span>اضغط للاختيار</span></div>
             ${p.img?`<img src="${p.img}" class="img-preview show" id="prev-${i}" alt="preview">`:`<img class="img-preview" id="prev-${i}" alt="preview">`}
           </div>
-          <div class="upload-progress" id="prog-${i}"><div class="upload-progress-bar" id="prog-fill-${i}"></div></div>
         </div>
       </div>
     </div>`).join('');
@@ -597,12 +591,11 @@ function renderAdminContacts(){
     <div class="ct-row">
       <input class="ct-icon-inp" value="${c.icon}" onchange="D.contacts[${i}].icon=this.value">
       <input class="ct-lbl-inp" value="${c.label}" onchange="D.contacts[${i}].label=this.value" placeholder="LABEL">
-      <input value="${c.val}" onchange="D.contacts[${i}].val=this.value" placeholder="القيمة">
-      <input value="${c.href}" onchange="D.contacts[${i}].href=this.value" placeholder="الرابط">
+      <input value="${c.href}" onchange="D.contacts[${i}].href=this.value" placeholder="URL">
       <button class="delbtn" onclick="D.contacts.splice(${i},1);renderAdminContacts()">✕</button>
     </div>`).join('');
 }
-function addContact(){ D.contacts.push({icon:'📌',label:'NEW',val:'—',href:'#'}); renderAdminContacts(); }
+function addContact(){ D.contacts.push({icon:'📌',label:'NEW',val:'',href:'#'}); renderAdminContacts(); }
 
 /* ══════════════════════════════════
    SYNC FORM FIELDS FROM DATA
@@ -632,10 +625,7 @@ async function save(key){
     D.hero={eyebrow:v('eh-eye'),name1:v('eh-n1'),name2:v('eh-n2'),role:v('eh-role')};
     applyHero();
   }else if(key==='about'){
-    D.about={
-      text:v('ea-txt'),
-      stats:[1,2,3].map(i=>({n:v(`es${i}n`),l:v(`es${i}l`)}))
-    };
+    D.about={ text:v('ea-txt'), stats:[1,2,3].map(i=>({n:v(`es${i}n`),l:v(`es${i}l`)})) };
     applyAbout();
   }else if(key==='skills'){
     D.skills=Array.from(document.querySelectorAll('#skills-edit .sk-row input')).map(i=>i.value).filter(Boolean);
@@ -645,13 +635,13 @@ async function save(key){
   }else if(key==='contact'){
     D.contacts=Array.from(document.querySelectorAll('#cont-edit .ct-row')).map(row=>{
       const inp=row.querySelectorAll('input');
-      return{icon:inp[0].value,label:inp[1].value,val:inp[2].value,href:inp[3].value};
+      return{icon:inp[0].value,label:inp[1].value,href:inp[2].value};
     });
     renderContact();
     await sbSave('contacts');
   }
   await sbSave(key);
-  btn.disabled=false; btn.textContent=`⚡ SAVE ${key.toUpperCase()}`;
+  btn.disabled=false; btn.textContent=`⚡ UPDATE ${key.toUpperCase()}`;
 }
 const v=id=>document.getElementById(id).value;
 
@@ -669,7 +659,13 @@ function closeAdmin(){
 }
 function checkAdmin(){
   const p=new URLSearchParams(location.search);
-  for(const [k] of p){ if(k===PASS){ history.replaceState({},document.title,location.pathname); openAdmin(); return; } }
+  for(const [k] of p){ 
+    if(k===PASS){ 
+      history.replaceState({},document.title,location.pathname); 
+      openAdmin(); 
+      return; 
+    } 
+  }
 }
 document.querySelectorAll('.adm-navbtn').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.adm-navbtn,.tpanel').forEach(el=>el.classList.remove('active'));
@@ -708,7 +704,10 @@ document.querySelectorAll('.adm-navbtn').forEach(b=>b.addEventListener('click',(
   scene.add(pts);
 
   let mx=0,my=0;
-  document.addEventListener('mousemove',e=>{ mx=(e.clientX-innerWidth/2)*.05; my=(e.clientY-innerHeight/2)*.05; });
+  // Ensure mouse movement is tracked only when it's not a touch device
+  if(window.matchMedia("(pointer: fine)").matches) {
+    document.addEventListener('mousemove',e=>{ mx=(e.clientX-innerWidth/2)*.05; my=(e.clientY-innerHeight/2)*.05; });
+  }
   window.addEventListener('resize',()=>{ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
 
   const clock=new THREE.Clock();
@@ -729,9 +728,10 @@ document.querySelectorAll('.adm-navbtn').forEach(b=>b.addEventListener('click',(
 })();
 
 /* ══════════════════════════════════
-   CUSTOM CURSOR
+   CUSTOM CURSOR (DESKTOP ONLY)
 ══════════════════════════════════ */
 (function initCursor(){
+  if(window.matchMedia("(pointer: coarse)").matches) return; // Ignore on touch
   const dot=document.getElementById('cdot'), ring=document.getElementById('cring');
   let mx=innerWidth/2, my=innerHeight/2, rx=mx, ry=my;
   document.addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; dot.style.transform=`translate(calc(${mx}px - 50%), calc(${my}px - 50%))`; });
@@ -745,7 +745,6 @@ document.querySelectorAll('.adm-navbtn').forEach(b=>b.addEventListener('click',(
 ══════════════════════════════════ */
 function initAnimations(){
   gsap.registerPlugin(ScrollTrigger,TextPlugin);
-  // Section labels
   gsap.utils.toArray('.sec-label').forEach(el=>{
     gsap.from(el,{scrollTrigger:{trigger:el,start:'top 90%'},x:-30,opacity:0,duration:.6,ease:'power3.out'});
   });
