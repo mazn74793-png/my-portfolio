@@ -15,9 +15,9 @@
     --bg: #050505;
     --text: #ffffff;
     --accent: #00ffcc;
-    --accent-dark: #007766;
     --surface: rgba(255, 255, 255, 0.03);
     --border: rgba(0, 255, 204, 0.2);
+    --danger: #ff4444;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; cursor: none !important; }
 body { background: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; overflow-x: hidden; }
@@ -57,7 +57,7 @@ section { position: relative; z-index: 10; padding: 10rem 5rem; min-height: 100v
 .hero-desc { font-size: 1.5rem; max-width: 600px; color: #aaa; line-height: 1.8; margin-bottom: 3rem; border-right: 3px solid var(--accent); padding-right: 1.5rem; }
 
 /* --- TYPING EFFECT TEXT --- */
-.type-target { min-height: 2em; /* يحافظ على المساحة أثناء الكتابة */ }
+.type-target { min-height: 2em; }
 
 /* --- ABOUT --- */
 .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
@@ -97,7 +97,21 @@ section { position: relative; z-index: 10; padding: 10rem 5rem; min-height: 100v
 /* ═══ PREMIUM DASHBOARD (SIDEBAR) ═══ */
 #admin-panel { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 100000; pointer-events: none; display: flex; justify-content: flex-start; }
 .admin-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); opacity: 0; transition: opacity 0.5s; }
-.admin-sidebar { width: min(100vw, 550px); height: 100%; background: rgba(5,5,5,0.95); border-left: 1px solid rgba(255,255,255,0.05); box-shadow: 20px 0 50px rgba(0,0,0,0.5); display: flex; flex-direction: column; transform: translateX(-100%); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: auto; }
+
+/* 👈 التعديل العظيم حصل هنا 👈 */
+.admin-sidebar { 
+    width: min(100vw, 550px); 
+    height: 100%; 
+    background: rgba(5,5,5,0.95); 
+    border-left: 1px solid rgba(255,255,255,0.05); 
+    box-shadow: 20px 0 50px rgba(0,0,0,0.5); 
+    display: flex; 
+    flex-direction: column; 
+    transform: translateX(100%); /* شيلنا السالب عشان الـ RTL وتختفي ناحية اليمين */
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); 
+    pointer-events: auto; 
+}
+
 #admin-panel.open { pointer-events: auto; }
 #admin-panel.open .admin-overlay { opacity: 1; }
 #admin-panel.open .admin-sidebar { transform: translateX(0); }
@@ -123,12 +137,6 @@ section { position: relative; z-index: 10; padding: 10rem 5rem; min-height: 100v
 
 .btn-save { width: 100%; padding: 1.2rem; background: var(--text); color: var(--bg); border: none; font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; cursor: pointer; transition: all 0.3s; margin-top: 1rem; }
 .btn-save:hover { background: var(--accent); box-shadow: 0 0 20px rgba(0,255,204,0.3); }
-
-/* Dynamic List Styles in Admin */
-.list-item-edit { border: 1px solid rgba(255,255,255,0.05); padding: 1.5rem; margin-bottom: 1rem; background: rgba(0,0,0,0.3); position: relative; }
-.btn-remove { position: absolute; top: 1rem; left: 1rem; background: rgba(255,0,0,0.1); color: #ff4444; border: 1px solid rgba(255,0,0,0.2); padding: 0.2rem 0.5rem; font-size: 0.8rem; cursor: pointer; }
-.btn-add { background: transparent; border: 1px dashed rgba(255,255,255,0.2); color: #aaa; width: 100%; padding: 1rem; margin-bottom: 1rem; cursor: pointer; font-family: 'Space Mono', monospace; transition: all 0.3s; }
-.btn-add:hover { border-color: var(--accent); color: var(--accent); }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -230,7 +238,7 @@ section { position: relative; z-index: 10; padding: 10rem 5rem; min-height: 100v
                 <button class="btn-save" onclick="saveData()">Update System</button>
             </div>
             <div class="tpanel" id="tab-t-about">
-                <div class="input-group"><label>النص التعريفي (استخدم <strong> للنص البارز)</label><textarea id="inp-about"></textarea></div>
+                <div class="input-group"><label>النص التعريفي (استخدم &lt;strong&gt; للنص البارز)</label><textarea id="inp-about"></textarea></div>
                 <button class="btn-save" onclick="saveData()">Update System</button>
             </div>
             <div class="tpanel" id="tab-t-data">
@@ -245,6 +253,9 @@ section { position: relative; z-index: 10; padding: 10rem 5rem; min-height: 100v
 <script>
 // تسجيل مكتبات GSAP
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
+
+// كلمة السر للوحة التحكم (تقدر تغيرها براحتك)
+const ADMIN_PASS = 'mazen2025';
 
 /* ── DATA SYSTEM ── */
 let D = JSON.parse(localStorage.getItem('mazen_v3_data')) || {
@@ -265,9 +276,6 @@ let D = JSON.parse(localStorage.getItem('mazen_v3_data')) || {
 
 /* ── RENDER ENGINE ── */
 function renderContent() {
-    // إدخال البيانات في الـ HTML (بدون أنيميشن عشان GSAP هيعمله)
-    // العناوين اللي هيتعملها Typing هنسيبها فاضية في الـ HTML وهنديها قيمتها عن طريق GSAP
-    
     // المهارات
     document.getElementById('skills-grid').innerHTML = D.skills.map(skill => `<div class="skill-pill">${skill}</div>`).join('');
     
@@ -286,32 +294,28 @@ function renderContent() {
 
 /* ── TYPEWRITER ANIMATIONS (GSAP) ── */
 function initTypewriterAnimations() {
-    // مسح المحتوى القديم عشان الأنيميشن يبدأ صح
     document.getElementById('hero-eyebrow').innerHTML = '';
     document.getElementById('hero-name1').innerHTML = '';
     document.getElementById('hero-name2').innerHTML = '';
     document.getElementById('hero-role').innerHTML = '';
     document.getElementById('about-text').innerHTML = '';
 
-    // Hero Animations
     const heroTl = gsap.timeline();
     heroTl.to('#hero-eyebrow', { text: D.hero.eyebrow, duration: 1, ease: "power1.inOut" })
           .to('#hero-name1', { text: D.hero.name1, duration: 1, ease: "power1.inOut" }, "-=0.5")
           .to('#hero-name2', { text: D.hero.name2, duration: 1, ease: "power1.inOut" }, "-=0.5")
           .to('#hero-role', { text: D.hero.role, duration: 2, ease: "power1.inOut" }, "-=0.5");
 
-    // Scroll Animations (Typewriter effect on scroll)
     gsap.to('#about-text', {
         scrollTrigger: {
             trigger: '#about',
-            start: "top 70%", // يبدأ لما السيكشن يوصل 70% من الشاشة
+            start: "top 70%", 
         },
         text: D.about.text,
         duration: 3,
         ease: "none"
     });
 
-    // Fade in for other elements
     gsap.utils.toArray('.skill-pill, .project-row').forEach(el => {
         gsap.from(el, {
             scrollTrigger: { trigger: el, start: "top 85%" },
@@ -324,7 +328,6 @@ function initTypewriterAnimations() {
 function init3DBackground() {
     const container = document.getElementById('webgl-container');
     const scene = new THREE.Scene();
-    // لون الضباب لدمجه مع الخلفية
     scene.fog = new THREE.FogExp2(0x050505, 0.03); 
 
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -335,7 +338,6 @@ function init3DBackground() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild(renderer.domElement);
 
-    // إنشاء شبكة من النقط (Points)
     const geometry = new THREE.BufferGeometry();
     const count = 3000;
     const positions = new Float32Array(count * 3);
@@ -343,9 +345,9 @@ function init3DBackground() {
     const color = new THREE.Color(0x00ffcc);
 
     for(let i = 0; i < count; i++) {
-        positions[i*3] = (Math.random() - 0.5) * 100; // x
-        positions[i*3+1] = (Math.random() - 0.5) * 10;  // y (initial flat)
-        positions[i*3+2] = (Math.random() - 0.5) * 100; // z
+        positions[i*3] = (Math.random() - 0.5) * 100;
+        positions[i*3+1] = (Math.random() - 0.5) * 10;
+        positions[i*3+2] = (Math.random() - 0.5) * 100;
         
         colors[i*3] = color.r;
         colors[i*3+1] = color.g;
@@ -371,17 +373,14 @@ function init3DBackground() {
         requestAnimationFrame(animate);
         const elapsedTime = clock.getElapsedTime();
 
-        // تأثير التموج (Wave Effect)
         const positions = points.geometry.attributes.position.array;
         for(let i = 0; i < count; i++) {
             const x = positions[i*3];
             const z = positions[i*3+2];
-            // حركة موجية معتمدة على الوقت ومكان النقطة
             positions[i*3+1] = Math.sin(elapsedTime * 0.5 + x * 0.1) * 3 + Math.cos(elapsedTime * 0.3 + z * 0.1) * 3;
         }
         points.geometry.attributes.position.needsUpdate = true;
 
-        // دوران الكاميرا مع الماوس بنعومة
         camera.position.x += (mouseX - camera.position.x) * 0.05;
         camera.position.y += (-mouseY + 10 - camera.position.y) * 0.05;
         camera.lookAt(scene.position);
@@ -409,14 +408,12 @@ function initCursor() {
         dot.style.transform = `translate(calc(${mouseX}px - 50%), calc(${mouseY}px - 50%))`;
     });
 
-    // انيميشن ناعم للحلقة الخارجية
     gsap.ticker.add(() => {
         ringX += (mouseX - ringX) * 0.15;
         ringY += (mouseY - ringY) * 0.15;
         ring.style.transform = `translate(calc(${ringX}px - 50%), calc(${ringY}px - 50%))`;
     });
 
-    // تأثير الـ Hover
     document.querySelectorAll('.hover-link').forEach(el => {
         el.addEventListener('mouseenter', () => ring.classList.add('hover'));
         el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
@@ -428,17 +425,16 @@ function toggleAdmin() {
     document.getElementById('admin-panel').classList.toggle('open');
 }
 
-// تفعيل لوحة التحكم عبر الـ URL (مثال: ?admin=mazen2025)
 function checkAdminAccess() {
     const urlParams = new URLSearchParams(window.location.search);
-    if(urlParams.get('admin') === 'mazen2025') {
-        history.replaceState({}, document.title, window.location.pathname); // تنظيف الرابط
+    // دلوقتي الباسورد مرتبط بالمتغير اللي فوق (mazen2025)
+    if(urlParams.get('admin') === ADMIN_PASS) {
+        history.replaceState({}, document.title, window.location.pathname);
         syncAdminFields();
-        setTimeout(toggleAdmin, 1000); // فتح اللوحة بعد تحميل الموقع
+        setTimeout(toggleAdmin, 1000); 
     }
 }
 
-// تبديل التابات داخل اللوحة
 document.querySelectorAll('.adm-tab').forEach(tab => {
     tab.addEventListener('click', () => {
         document.querySelectorAll('.adm-tab, .tpanel').forEach(el => el.classList.remove('active'));
@@ -466,10 +462,9 @@ function saveData() {
     
     localStorage.setItem('mazen_v3_data', JSON.stringify(D));
     
-    // إعادة بناء المحتوى والأنيميشن
     renderContent();
     initTypewriterAnimations();
-    toggleAdmin(); // قفل اللوحة
+    toggleAdmin();
 }
 
 /* ── INITIALIZATION ── */
