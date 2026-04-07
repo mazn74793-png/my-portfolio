@@ -1,393 +1,486 @@
 <!DOCTYPE html>
-<html lang="ar" prefix="og: http://ogp.me/ns#" dir="rtl">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mazen Developer | الـ Portfolio الأسطوري</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cairo:wght@300;400;600;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<title>MAZEN | High-End Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;600;900&family=Syncopate:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
 
 <style>
 :root {
-    --black: #020205;
-    --surface: rgba(10, 10, 15, 0.4);
-    --border: rgba(0, 212, 255, 0.12);
-    --cyan: #00d4ff;
-    --gold: #ffd060;
-    --white: #f5f7fa;
-    --muted: #8a8aab;
-    --danger: #ff4466;
-    --grad: linear-gradient(135deg, #00d4ff, #0040ff);
+    --bg: #050505;
+    --text: #ffffff;
+    --accent: #00ffcc;
+    --accent-dark: #007766;
+    --surface: rgba(255, 255, 255, 0.03);
+    --border: rgba(0, 255, 204, 0.2);
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;cursor:none !important;}
-html{scroll-behavior:smooth;}
-body{background:var(--black);color:var(--white);font-family:'Cairo',sans-serif;overflow-x:hidden;}
+* { box-sizing: border-box; margin: 0; padding: 0; cursor: none !important; }
+body { background: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; overflow-x: hidden; }
+::selection { background: var(--accent); color: var(--bg); }
 
-/* Custom Cursor */
-.cursor { width: 8px; height: 8px; background: #fff; border-radius: 50%; position: fixed; pointer-events: none; z-index: 100000; mix-blend-mode: difference; transition: transform 0.1s; }
-.cursor-follower { width: 40px; height: 40px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50%; position: fixed; pointer-events: none; z-index: 99999; transition: width 0.3s, height 0.3s, transform 0.15s ease-out; transform: translate(-50%, -50%); mix-blend-mode: difference;}
-.cursor-follower.hover { width: 80px; height: 80px; background: rgba(255, 255, 255, 0.1); border-color: transparent; backdrop-filter: blur(4px); }
+/* --- CUSTOM CURSOR --- */
+.cursor-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; position: fixed; pointer-events: none; z-index: 100000; transform: translate(-50%, -50%); }
+.cursor-ring { width: 40px; height: 40px; border: 1px solid var(--accent); border-radius: 50%; position: fixed; pointer-events: none; z-index: 99999; transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s, background 0.3s; mix-blend-mode: difference; }
+.cursor-ring.hover { width: 80px; height: 80px; background: var(--text); border-color: transparent; }
 
-/* Noise Overlay */
-#grain{position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+/* --- MARQUEE TEXT --- */
+.marquee-container { position: fixed; top: 50%; left: 0; width: 100vw; transform: translateY(-50%) rotate(-5deg); z-index: 0; opacity: 0.03; pointer-events: none; overflow: hidden; display: flex; }
+.marquee-text { font-family: 'Syncopate', sans-serif; font-size: 15vw; font-weight: 900; white-space: nowrap; text-transform: uppercase; animation: marquee 20s linear infinite; }
+@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:2rem 5rem;transition:background 0.4s, backdrop-filter 0.4s}
-nav.scrolled{background:rgba(2,2,5,.7);backdrop-filter:blur(20px);border-bottom:1px solid var(--border); padding: 1.5rem 5rem;}
-.nav-logo{font-family:'Cinzel',serif;font-size:1.8rem;font-weight:900;color:var(--white);letter-spacing:5px;}
-.nav-logo span{color:var(--cyan)}
-.nav-links{display:flex;gap:4rem;list-style:none}
-.nav-links a{color:var(--muted);text-decoration:none;font-size:.85rem;letter-spacing:4px;text-transform:uppercase;transition:color 0.3s;font-family:'Space Mono',monospace;}
-.nav-links a:hover{color:var(--white)}
+/* --- NAVIGATION --- */
+nav { position: fixed; top: 0; width: 100%; padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000; mix-blend-mode: difference; }
+.logo { font-family: 'Syncopate', sans-serif; font-size: 1.5rem; font-weight: 700; letter-spacing: 2px; }
+.logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 3rem; }
+.nav-links a { color: var(--text); text-decoration: none; font-family: 'Space Mono', monospace; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; position: relative; }
+.nav-links a::after { content: ''; position: absolute; bottom: -5px; right: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.3s ease; }
+.nav-links a:hover::after { width: 100%; left: 0; right: auto; }
 
-/* HERO */
-#hero{position:relative;height:100vh;display:flex;justify-content:center;align-items:center;text-align:center; overflow:hidden;}
-#hero-canvas{position:absolute;inset:0;z-index:0;}
-.hero-content{position:relative;z-index:2;width:100%; max-width: 1600px; padding: 0 2rem;}
-.hero-eyebrow{font-family:'Space Mono',monospace;font-size:1rem;letter-spacing:12px;color:var(--cyan);text-transform:uppercase;margin-bottom:1rem; opacity:0;}
-.hero-name{font-family:'Cinzel',serif;font-size:clamp(5rem, 15vw, 15rem);font-weight:900;line-height:0.85;letter-spacing:-4px;color:var(--white); opacity:0;}
-.hero-role{font-size:1.6rem;color:var(--muted);margin-top:3rem;letter-spacing:2px;font-weight:300; opacity:0;}
-.hero-role span{color:var(--cyan);font-weight:600; font-family:'Space Mono',monospace;}
+/* --- THREE JS CANVAS --- */
+#webgl-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; opacity: 0.6; }
 
-/* SECTIONS */
-section{padding:12rem 5rem;max-width:1800px;margin:0 auto;position:relative;z-index:2}
-.slabel{font-family:'Space Mono',monospace;font-size:.85rem;letter-spacing:10px;color:var(--cyan);text-transform:uppercase;margin-bottom:2rem; opacity:0;}
-.stitle{font-family:'Cairo',sans-serif;font-size:clamp(3.5rem, 7vw, 8rem);font-weight:900;line-height:1;margin-bottom:3rem; letter-spacing: -2px; opacity:0;}
-.stitle em{font-style:normal; font-family:'Cinzel',serif; color:var(--gold);}
+/* --- SECTIONS COMMON --- */
+section { position: relative; z-index: 10; padding: 10rem 5rem; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+.container { max-width: 1400px; margin: 0 auto; width: 100%; }
+.section-label { font-family: 'Space Mono', monospace; color: var(--accent); font-size: 0.9rem; letter-spacing: 5px; margin-bottom: 2rem; display: inline-block; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
 
-/* ABOUT */
-#about{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:center}
-.about-text p{color:var(--muted);line-height:2.2;font-size:1.2rem;margin-bottom:2rem; font-weight:300;}
-.about-text p strong{color:var(--white); font-weight:600;}
-.astats{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:4rem}
-.astat{padding:2rem; border: 1px solid rgba(255,255,255,0.05); background: var(--surface); backdrop-filter:blur(10px); transition:border-color 0.3s;}
-.astat:hover{border-color:var(--cyan);}
-.astat-n{font-family:'Space Mono',monospace;font-size:3.5rem;font-weight:700;color:var(--white)}
-.astat-l{font-size:.85rem;color:var(--muted);margin-top:.5rem; letter-spacing: 3px; text-transform:uppercase;}
-.aframe{width:100%; height:550px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:30px; position:relative; overflow:hidden;}
-.aframe-img{position:absolute; inset:0; background: linear-gradient(135deg, rgba(0,212,255,0.1), transparent); display:flex; justify-content:center; align-items:center; font-family:'Cinzel',serif; font-size:10rem; font-weight:900; color:rgba(255,255,255,0.03);}
-.atags{position:absolute; bottom:2rem; left:0; right:0; display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;padding:0 2rem;}
-.tag{padding:.5rem 1.5rem; border:1px solid rgba(255,255,255,0.1); font-size:.8rem;font-family:'Space Mono',monospace;color:var(--white);letter-spacing:2px; border-radius:50px; backdrop-filter:blur(5px); background:rgba(0,0,0,0.5);}
+/* --- HERO --- */
+#hero { align-items: flex-start; }
+.hero-title { font-family: 'Syncopate', sans-serif; font-size: clamp(4rem, 10vw, 12rem); font-weight: 900; line-height: 0.9; text-transform: uppercase; margin-bottom: 2rem; }
+.hero-title .outline { color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.3); }
+.hero-desc { font-size: 1.5rem; max-width: 600px; color: #aaa; line-height: 1.8; margin-bottom: 3rem; border-right: 3px solid var(--accent); padding-right: 1.5rem; }
 
-/* SKILLS */
-.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2rem}
-.skcard{border:1px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.01);padding:3.5rem 2.5rem; border-radius: 20px; transition:all 0.4s ease; backdrop-filter:blur(10px);}
-.skcard:hover{border-color:var(--cyan); transform:translateY(-10px); background:var(--surface); box-shadow: 0 15px 40px rgba(0,212,255,0.1);}
-.sk-icon{font-size:3.5rem;margin-bottom:1.5rem; transition: transform 0.4s;}
-.skcard:hover .sk-icon{transform: scale(1.1);}
-.sk-name{font-family:'Space Mono',monospace;font-size:1.3rem;font-weight:700;color:var(--white);letter-spacing:2px;}
-.sk-desc{color:var(--muted); font-size: 0.95rem; margin-top: 1rem; line-height: 1.8; font-weight: 300;}
+/* --- TYPING EFFECT TEXT --- */
+.type-target { min-height: 2em; /* يحافظ على المساحة أثناء الكتابة */ }
 
-/* PROJECTS */
-.pgrid{display:grid;grid-template-columns:1fr;gap:4rem}
-.pcard{border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:4rem; display:grid; grid-template-columns: 1.5fr 1fr; gap: 4rem; transition:all 0.4s; align-items:center;}
-.ptitle{font-size:3rem;font-weight:900;margin-bottom:1.5rem; letter-spacing: -1px; font-family:'Cairo',sans-serif;}
-.pdesc{color:var(--muted);font-size:1.1rem;line-height:2;margin-bottom:2.5rem; font-weight:300;}
-.ptech{display:flex;flex-wrap:wrap;gap:1rem; margin-bottom: 3rem;}
-.ttag{padding:.5rem 1.5rem;background:transparent;border:1px solid rgba(255,255,255,0.1);font-family:'Space Mono',monospace;font-size:.75rem;color:var(--white);letter-spacing:2px; border-radius:100px;}
-.p-link{display:inline-flex; align-items:center; gap:1.5rem; color:var(--cyan); font-family:'Space Mono',monospace; letter-spacing:2px; text-decoration:none; font-size:0.9rem; text-transform:uppercase;}
-.p-link span{width:45px;height:45px;border:1px solid var(--cyan);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all 0.4s;}
-.pcard:hover .p-link span{transform:translate(-10px, -10px); background:var(--cyan); color:#000;}
-.p-visual{width:100%; height:400px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:20px; display:flex; justify-content:center; align-items:center; font-family:'Cinzel',serif; font-size:8rem; font-weight:900; color:rgba(255,255,255,0.05);}
+/* --- ABOUT --- */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+.about-text { font-size: 1.8rem; line-height: 1.8; font-weight: 300; }
+.about-text strong { color: var(--accent); font-weight: 900; }
+.stats-box { display: flex; gap: 3rem; margin-top: 3rem; }
+.stat { border-top: 1px solid var(--border); padding-top: 1rem; }
+.stat-num { font-family: 'Syncopate', sans-serif; font-size: 3.5rem; font-weight: 700; color: var(--text); }
+.stat-label { font-family: 'Space Mono', monospace; font-size: 0.8rem; color: #888; text-transform: uppercase; letter-spacing: 2px; }
 
-/* CONTACT */
-#contact{text-align:center; max-width:900px;}
-.ctitle{font-size:clamp(3.5rem, 8vw, 10rem); font-family:'Cinzel',serif; font-weight:900; line-height:0.9; background: var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent;}
-.clinks{display:flex; justify-content:center; gap:2.5rem; margin-top:5rem;}
-.clink{width:90px;height:90px;border:1px solid rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--white);text-decoration:none;transition:all 0.4s;}
-.clink:hover{border-color:var(--cyan); color:var(--cyan); transform:translateY(-10px); box-shadow: 0 10px 30px rgba(0,212,255,0.15);}
+/* --- SKILLS --- */
+.skills-container { display: flex; flex-wrap: wrap; gap: 1rem; }
+.skill-pill { border: 1px solid rgba(255,255,255,0.1); padding: 1.5rem 3rem; border-radius: 100px; font-family: 'Space Mono', monospace; font-size: 1.2rem; transition: all 0.4s; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); }
+.skill-pill:hover { border-color: var(--accent); background: var(--accent); color: var(--bg); transform: translateY(-5px) scale(1.05); }
 
-/* LOADER */
-#loader{position:fixed;inset:0;z-index:100000;background:var(--black);display:flex;align-items:center;justify-content:center; transition:opacity 0.8s ease, visibility 0.8s;}
-#loader.out{opacity:0; visibility:hidden;}
-.llo{font-family:'Cinzel',serif;font-size:4rem;font-weight:900;color:var(--white); letter-spacing: 12px;}
+/* --- PROJECTS --- */
+.project-list { display: flex; flex-direction: column; gap: 0; border-top: 1px solid rgba(255,255,255,0.1); }
+.project-row { display: grid; grid-template-columns: auto 1fr auto; gap: 3rem; align-items: center; padding: 4rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); transition: all 0.4s; position: relative; }
+.project-row::before { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 100%; background: var(--surface); transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1); z-index: -1; }
+.project-row:hover::before { width: 100%; }
+.project-row:hover { padding-right: 2rem; border-bottom-color: var(--accent); }
+.p-num { font-family: 'Space Mono', monospace; color: #555; font-size: 1.5rem; transition: color 0.4s; }
+.project-row:hover .p-num { color: var(--accent); }
+.p-name { font-family: 'Syncopate', sans-serif; font-size: clamp(2rem, 4vw, 4rem); font-weight: 700; text-transform: uppercase; }
+.p-tech { font-family: 'Space Mono', monospace; color: #888; font-size: 0.9rem; margin-top: 0.5rem; }
+.p-arrow { font-size: 2rem; opacity: 0; transform: translateX(-20px); transition: all 0.4s; color: var(--accent); }
+.project-row:hover .p-arrow { opacity: 1; transform: translateX(0); }
 
-@media(max-width:1000px){
-  nav{padding:1.5rem 2rem} section{padding:8rem 2rem}
-  #about, .pcard{grid-template-columns:1fr;gap:4rem} 
-  .cursor, .cursor-follower {display:none;} .nav-links{display:none}
+/* --- CONTACT --- */
+.contact-wrap { text-align: center; }
+.contact-title { font-family: 'Syncopate', sans-serif; font-size: clamp(3rem, 8vw, 10rem); color: transparent; -webkit-text-stroke: 1px var(--text); transition: all 0.4s; line-height: 1; }
+.contact-title:hover { color: var(--accent); -webkit-text-stroke: 0px; text-shadow: 0 0 30px rgba(0,255,204,0.5); }
+.contact-links { display: flex; justify-content: center; gap: 3rem; margin-top: 4rem; }
+.clink { font-family: 'Space Mono', monospace; font-size: 1.2rem; color: #aaa; text-decoration: none; text-transform: uppercase; letter-spacing: 2px; transition: color 0.3s; }
+.clink:hover { color: var(--accent); }
+
+/* ═══ PREMIUM DASHBOARD (SIDEBAR) ═══ */
+#admin-panel { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 100000; pointer-events: none; display: flex; justify-content: flex-start; }
+.admin-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); opacity: 0; transition: opacity 0.5s; }
+.admin-sidebar { width: min(100vw, 550px); height: 100%; background: rgba(5,5,5,0.95); border-left: 1px solid rgba(255,255,255,0.05); box-shadow: 20px 0 50px rgba(0,0,0,0.5); display: flex; flex-direction: column; transform: translateX(-100%); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: auto; }
+#admin-panel.open { pointer-events: auto; }
+#admin-panel.open .admin-overlay { opacity: 1; }
+#admin-panel.open .admin-sidebar { transform: translateX(0); }
+
+.adm-header { padding: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
+.adm-title { font-family: 'Syncopate', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--accent); }
+.close-btn { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; transition: color 0.3s; }
+.close-btn:hover { color: var(--danger); }
+
+.adm-tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.adm-tab { flex: 1; padding: 1rem; background: none; border: none; color: #666; font-family: 'Space Mono', monospace; font-size: 0.8rem; cursor: pointer; transition: all 0.3s; border-bottom: 2px solid transparent; }
+.adm-tab.active { color: var(--text); border-bottom-color: var(--accent); }
+
+.adm-content { padding: 2rem; overflow-y: auto; flex: 1; }
+.tpanel { display: none; animation: fadeIn 0.4s; }
+.tpanel.active { display: block; }
+
+.input-group { margin-bottom: 2rem; position: relative; }
+.input-group label { display: block; font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent); text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 1px; }
+.input-group input, .input-group textarea { width: 100%; padding: 1rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: 'Cairo', sans-serif; font-size: 1rem; outline: none; transition: border-color 0.3s, background 0.3s; }
+.input-group input:focus, .input-group textarea:focus { border-color: var(--accent); background: rgba(0,255,204,0.02); }
+.input-group textarea { min-height: 120px; resize: vertical; }
+
+.btn-save { width: 100%; padding: 1.2rem; background: var(--text); color: var(--bg); border: none; font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; cursor: pointer; transition: all 0.3s; margin-top: 1rem; }
+.btn-save:hover { background: var(--accent); box-shadow: 0 0 20px rgba(0,255,204,0.3); }
+
+/* Dynamic List Styles in Admin */
+.list-item-edit { border: 1px solid rgba(255,255,255,0.05); padding: 1.5rem; margin-bottom: 1rem; background: rgba(0,0,0,0.3); position: relative; }
+.btn-remove { position: absolute; top: 1rem; left: 1rem; background: rgba(255,0,0,0.1); color: #ff4444; border: 1px solid rgba(255,0,0,0.2); padding: 0.2rem 0.5rem; font-size: 0.8rem; cursor: pointer; }
+.btn-add { background: transparent; border: 1px dashed rgba(255,255,255,0.2); color: #aaa; width: 100%; padding: 1rem; margin-bottom: 1rem; cursor: pointer; font-family: 'Space Mono', monospace; transition: all 0.3s; }
+.btn-add:hover { border-color: var(--accent); color: var(--accent); }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+@media(max-width: 900px) {
+    nav { padding: 1.5rem 2rem; } .nav-links { display: none; }
+    section { padding: 6rem 2rem; } .about-grid { grid-template-columns: 1fr; }
+    .hero-title { font-size: 15vw; } .project-row { grid-template-columns: 1fr; gap: 1rem; }
+    .cursor-dot, .cursor-ring { display: none; }
+    .admin-sidebar { width: 100vw; }
 }
-
-/* ═══ ADMIN PANEL ═══ */
-#adm-ov{position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.92);backdrop-filter:blur(20px);display:none;align-items:center;justify-content:center; color:#fff;}
-#adm-ov.open{display:flex}
-#adm-panel{background:#05050a;border:1px solid rgba(255,255,255,0.1);width:min(95vw,900px);max-height:90vh;overflow-y:auto; border-radius:15px;}
-.adm-hd{padding:1.5rem 2.5rem;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between}
-.adm-nav{border-left:1px solid rgba(255,255,255,0.05);padding:1rem 0;display:flex;flex-direction:column; background:rgba(0,0,0,0.2)}
-.adm-navbtn{padding:1rem 2rem;background:transparent;border:none;color:var(--muted);font-family:'Cairo',sans-serif;text-align:right;cursor:pointer;border-right:3px solid transparent; width:100%}
-.adm-navbtn.active{background:rgba(0,212,255,0.05);color:var(--cyan);border-right-color:var(--cyan)}
-.adm-layout{display:grid;grid-template-columns:180px 1fr; min-height:500px;}
-.adm-content{padding:2.5rem; max-height: calc(90vh - 70px); overflow-y:auto;}
-.tpanel{display:none} .tpanel.active{display:block}
-.fg{margin-bottom:1.5rem}
-.fg label{display:block;font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-family:'Space Mono',monospace;}
-.fg input,.fg textarea{width:100%;padding:.8rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);color:#fff;border-radius:6px;outline:none;}
-.savebtn{padding:.8rem 2rem;background:var(--cyan);color:#000;border:none;border-radius:30px;cursor:pointer;font-family:'Space Mono',monospace;font-weight:700;}
-.pe-card{border:1px solid rgba(255,255,255,0.05); padding:1rem; border-radius:8px; margin-bottom:1rem; position:relative;}
-.srow{display:flex;gap:.5rem;margin-bottom:.5rem;}
-.delbtn{background:rgba(255,68,102,0.1);color:var(--danger);border:none;padding:.5rem 1rem;border-radius:5px;cursor:pointer;}
 </style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-follower" id="cursor-follower"></div>
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
 
-<div id="loader"><div class="llo" id="ld-txt">MAZEN</div></div>
-<div id="grain"></div>
+<div id="webgl-container"></div>
 
-<nav id="nav">
-  <div class="nav-logo" id="nav-name">MZ<span>N</span></div>
-  <ul class="nav-links">
-    <li><a href="#about" class="magnetic">عني</a></li>
-    <li><a href="#skills" class="magnetic">التقنيات</a></li>
-    <li><a href="#projects" class="magnetic">الأعمال</a></li>
-    <li><a href="#contact" class="magnetic">تواصل</a></li>
-  </ul>
+<div class="marquee-container">
+    <div class="marquee-text">MAZEN DEVELOPER • FULL STACK EXPERT • MAZEN DEVELOPER • FULL STACK EXPERT • </div>
+</div>
+
+<nav>
+    <div class="logo">MZ<span>N</span></div>
+    <div class="nav-links">
+        <a href="#about" class="hover-link">عني</a>
+        <a href="#skills" class="hover-link">المهارات</a>
+        <a href="#projects" class="hover-link">الأعمال</a>
+    </div>
 </nav>
 
 <section id="hero">
-  <canvas id="hero-canvas"></canvas>
-  <div class="hero-content">
-    <p class="hero-eyebrow gs-hero" id="hero-eyebrow">FULL STACK EXPERT // CAIRO, EG</p>
-    <h1 class="hero-name gs-hero" id="hero-name">MAZEN</h1>
-    <p class="hero-role gs-hero" id="hero-role">أبني أنظمة ويب <span>متكاملة ومعقدة</span></p>
-  </div>
+    <div class="container">
+        <div class="section-label type-target" id="hero-eyebrow"></div>
+        <h1 class="hero-title">
+            <div id="hero-name1"></div>
+            <div class="outline" id="hero-name2"></div>
+        </h1>
+        <p class="hero-desc type-target" id="hero-role"></p>
+    </div>
 </section>
 
 <section id="about">
-  <div class="about-text">
-    <p class="slabel gs-sec">/ عن مازن</p>
-    <h2 class="stitle gs-sec">مطور يبني<br><em>خارج الصندوق</em></h2>
-    <p class="gs-sec" id="about-p1">مطور Full Stack عمره <strong>17 سنة</strong> من القاهرة. متخصص في هندسة تطبيقات الويب.</p>
-    <p class="gs-sec" id="about-p2">بستخدم <strong>Next.js 14، Supabase، Cloudflare R2، و TypeScript</strong>.</p>
-    <div class="astats gs-sec">
-      <div class="astat hover-target"><div class="astat-n" id="s1n">2+</div><div class="astat-l" id="s1l">مشاريع مكتملة</div></div>
-      <div class="astat hover-target"><div class="astat-n" id="s2n">17</div><div class="astat-l" id="s2l">سنة من الشغف</div></div>
+    <div class="container about-grid">
+        <div>
+            <div class="section-label">/ 01 SYSTEM ARCHITECT</div>
+            <h2 class="about-text type-target" id="about-text"></h2>
+            <div class="stats-box">
+                <div class="stat"><div class="stat-num" id="stat-exp">17</div><div class="stat-label">Years of Life</div></div>
+                <div class="stat"><div class="stat-num" id="stat-prj">10+</div><div class="stat-label">Complex Systems</div></div>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="gs-sec">
-    <div class="aframe hover-target">
-      <div class="aframe-img">MZ</div>
-      <div class="atags" id="atags"></div>
-    </div>
-  </div>
 </section>
 
 <section id="skills">
-  <p class="slabel gs-sec">/ التقنيات</p>
-  <h2 class="stitle gs-sec">أدوات <em>بحترفها</em></h2>
-  <div class="sgrid" id="skills-grid"></div>
+    <div class="container">
+        <div class="section-label">/ 02 CORE TECH</div>
+        <div class="skills-container" id="skills-grid">
+            </div>
+    </div>
 </section>
 
 <section id="projects">
-  <p class="slabel gs-sec">/ الأعمال</p>
-  <h2 class="stitle gs-sec">مشاريع <em>كاملة</em></h2>
-  <div class="pgrid" id="projects-grid"></div>
+    <div class="container">
+        <div class="section-label">/ 03 SELECTED WORKS</div>
+        <div class="project-list" id="projects-grid">
+            </div>
+    </div>
 </section>
 
 <section id="contact">
-  <p class="slabel gs-sec">/ تواصل معي</p>
-  <h2 class="ctitle gs-sec magnetic">LETS TALK</h2>
-  <div class="clinks gs-sec" id="clinks"></div>
+    <div class="container contact-wrap">
+        <h2 class="contact-title hover-link">INITIATE<br>SEQUENCE</h2>
+        <div class="contact-links" id="contact-links">
+            </div>
+    </div>
 </section>
 
-<div id="adm-ov">
-  <div id="adm-panel">
-    <div class="adm-hd">
-      <div class="adm-title">لوحة التحكم (LocalStorage)</div>
-      <button class="delbtn magnetic" onclick="document.getElementById('adm-ov').classList.remove('open')">إغلاق</button>
+<div id="admin-panel">
+    <div class="admin-overlay" onclick="toggleAdmin()"></div>
+    <div class="admin-sidebar">
+        <div class="adm-header">
+            <div class="adm-title">CONTROL CENTER</div>
+            <button class="close-btn" onclick="toggleAdmin()">×</button>
+        </div>
+        <div class="adm-tabs">
+            <button class="adm-tab active" data-tab="t-hero">HERO</button>
+            <button class="adm-tab" data-tab="t-about">ABOUT</button>
+            <button class="adm-tab" data-tab="t-data">DATA</button>
+        </div>
+        <div class="adm-content">
+            <div class="tpanel active" id="tab-t-hero">
+                <div class="input-group"><label>العنوان الصغير</label><input id="inp-eyebrow"></div>
+                <div class="input-group"><label>الاسم (السطر الأول)</label><input id="inp-name1"></div>
+                <div class="input-group"><label>الاسم (السطر المفرغ)</label><input id="inp-name2"></div>
+                <div class="input-group"><label>الوصف</label><textarea id="inp-role"></textarea></div>
+                <button class="btn-save" onclick="saveData()">Update System</button>
+            </div>
+            <div class="tpanel" id="tab-t-about">
+                <div class="input-group"><label>النص التعريفي (استخدم <strong> للنص البارز)</label><textarea id="inp-about"></textarea></div>
+                <button class="btn-save" onclick="saveData()">Update System</button>
+            </div>
+            <div class="tpanel" id="tab-t-data">
+                <div class="input-group"><label>المهارات (افصل بينهم بفاصلة)</label><textarea id="inp-skills"></textarea></div>
+                <div style="color:#aaa; font-size:0.8rem; margin-bottom:1rem;">* المشاريع يتم تعديلها من الكود مباشرة لتعقيد الـ Layout الخاص بها في هذه النسخة.</div>
+                <button class="btn-save" onclick="saveData()">Update System</button>
+            </div>
+        </div>
     </div>
-    <div class="adm-layout">
-      <div class="adm-nav">
-        <button class="adm-navbtn active" data-tab="hero">الرئيسية</button>
-        <button class="adm-navbtn" data-tab="about">عني</button>
-        <button class="adm-navbtn" data-tab="skills">التقنيات</button>
-        <button class="adm-navbtn" data-tab="projects">المشاريع</button>
-      </div>
-      <div class="adm-content">
-        <div class="tpanel active" id="tab-hero">
-          <div class="fg"><label>الاسم</label><input id="eh-name"></div>
-          <div class="fg"><label>النص الصغير</label><input id="eh-eye"></div>
-          <div class="fg"><label>الوصف</label><input id="eh-role"></div>
-          <button class="savebtn magnetic" onclick="save('hero')">حفظ التغييرات</button>
-        </div>
-        <div class="tpanel" id="tab-about">
-          <div class="fg"><label>فقرة 1</label><textarea id="ea-p1"></textarea></div>
-          <div class="fg"><label>فقرة 2</label><textarea id="ea-p2"></textarea></div>
-          <div class="fg"><label>الـ Tags (فواصل)</label><input id="ea-tags"></div>
-          <button class="savebtn magnetic" onclick="save('about')">حفظ التغييرات</button>
-        </div>
-        <div class="tpanel" id="tab-skills">
-          <div id="skills-edit"></div>
-          <button class="savebtn magnetic" onclick="save('skills')">حفظ المهارات</button>
-        </div>
-        <div class="tpanel" id="tab-projects">
-          <div id="proj-edit"></div>
-          <button class="savebtn magnetic" onclick="save('projects')">حفظ المشاريع</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
 <script>
-const PASS = 'mazen2025';
+// تسجيل مكتبات GSAP
+gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
-let defaultData = {
-  hero:    { name:'MAZEN', eyebrow:'FULL STACK EXPERT // CAIRO, EG', role:'أبني أنظمة ويب <span>متكاملة ومعقدة</span>' },
-  about:   { p1:'مطور Full Stack عمره <strong>17 سنة</strong> من القاهرة. متخصص في هندسة وبناء تطبيقات ويب متكاملة.', p2:'بستخدم <strong>Next.js 14، Supabase، Cloudflare R2، و TypeScript</strong> لضمان أعلى أداء.', stats:[{n:'2+',l:'مشاريع مكتملة'},{n:'17',l:'سنة من الشغف'}], tags:['Next.js','Supabase','Cloudflare','React','TypeScript','WebGL'] },
-  skills:  [
-    {icon:'⚡',name:'Next.js 14',desc:'بناء تطبيقات سريعة وآمنة بـ App Router.'},
-    {icon:'🔷',name:'TypeScript',desc:'كتابة كود نظيف وخالي من الأخطاء النوعية.'},
-    {icon:'🗄️',name:'Supabase',desc:'هندسة قواعد بيانات Realtime و Authentication.'},
-    {icon:'⚛️',name:'React 18',desc:'بناء واجهات مستخدم تفاعلية ومعقدة.'},
-    {icon:'🎨',name:'Tailwind CSS',desc:'تصميم واجهات احترافية ومتجاوبة بسرعة.'},
-    {icon:'🚀',name:'GSAP & WebGL',desc:'خلق تجارب مستخدم حركية وتفاعلية أسطورية.'}
-  ],
-  projects:[
-    {title:'Make Future Center',desc:'منصة تعليمية عربية متكاملة تدعم أدوار (أدمن/مدرس/طالب) مع تتبع تقدم و Video Player.',tech:['Next.js 14','Supabase','Cloudflare R2'],link:'#'},
-    {title:'HAMMER Restaurant',desc:'تطبيق طلبات مطعم مصري مع Admin Dashboard وإشعارات Realtime.',tech:['Next.js','Supabase','PWA'],link:'#'}
-  ],
-  contacts:[{icon:'📧',href:'mailto:mazen@example.com'},{icon:'💬',href:'https://wa.me/20'},{icon:'🐱',href:'https://github.com'}]
+/* ── DATA SYSTEM ── */
+let D = JSON.parse(localStorage.getItem('mazen_v3_data')) || {
+    hero: { eyebrow: 'SYSTEM ARCHITECT // FULL STACK', name1: 'MAZEN', name2: 'DEVELOPER', role: 'أبني أنظمة تفاعلية معقدة. متخصص في تحويل الأفكار المجنونة لكود حقيقي باستخدام أحدث تقنيات الويب.' },
+    about: { text: 'مطور Full Stack من القاهرة، <strong>17 سنة</strong>. تركيزي الأساسي على هندسة الأنظمة التفاعلية وتطبيقات الويب المعقدة (زي Mizoo Project). بشتغل بـ <strong>Next.js, React, Supabase</strong> وعيني دايماً على الأداء العالي والتصميم اللي بيكسر القواعد.' },
+    skills: ['NEXT.JS 14', 'REACT', 'SUPABASE', 'TYPESCRIPT', 'TAILWIND', 'GSAP', 'WEBGL', 'CLOUDFLARE'],
+    projects: [
+        { name: 'MIZOO PROJECT', tech: 'Motion Control / AI / Web', link: '#' },
+        { name: 'FUTURE CENTER', tech: 'Next.js / Supabase / Video Streaming', link: '#' },
+        { name: 'HAMMER APP', tech: 'Realtime Orders / Dashboards', link: '#' }
+    ],
+    contact: [
+        { label: 'EMAIL', href: 'mailto:mazen@example.com' },
+        { label: 'GITHUB', href: '#' },
+        { label: 'WHATSAPP', href: '#' }
+    ]
 };
 
-let D = JSON.parse(localStorage.getItem('mazen_data')) || defaultData;
+/* ── RENDER ENGINE ── */
+function renderContent() {
+    // إدخال البيانات في الـ HTML (بدون أنيميشن عشان GSAP هيعمله)
+    // العناوين اللي هيتعملها Typing هنسيبها فاضية في الـ HTML وهنديها قيمتها عن طريق GSAP
+    
+    // المهارات
+    document.getElementById('skills-grid').innerHTML = D.skills.map(skill => `<div class="skill-pill">${skill}</div>`).join('');
+    
+    // المشاريع
+    document.getElementById('projects-grid').innerHTML = D.projects.map((p, i) => `
+        <a href="${p.link}" class="project-row hover-link" style="text-decoration:none; color:inherit;">
+            <div class="p-num">0${i+1}</div>
+            <div><div class="p-name">${p.name}</div><div class="p-tech">${p.tech}</div></div>
+            <div class="p-arrow">↗</div>
+        </a>
+    `).join('');
 
-/* ── INTERACTIVITY ── */
-const cursor = document.getElementById('cursor');
-const follower = document.getElementById('cursor-follower');
-let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
-let posX = mouseX, posY = mouseY;
+    // التواصل
+    document.getElementById('contact-links').innerHTML = D.contact.map(c => `<a href="${c.href}" class="clink hover-link">${c.label}</a>`).join('');
+}
 
-document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; cursor.style.display = follower.style.display = 'block'; });
-gsap.ticker.add(() => {
-  posX += (mouseX - posX) / 6; posY += (mouseY - posY) / 6;
-  gsap.set(follower, { x: posX, y: posY }); gsap.set(cursor, { x: mouseX - 4, y: mouseY - 4 });
+/* ── TYPEWRITER ANIMATIONS (GSAP) ── */
+function initTypewriterAnimations() {
+    // مسح المحتوى القديم عشان الأنيميشن يبدأ صح
+    document.getElementById('hero-eyebrow').innerHTML = '';
+    document.getElementById('hero-name1').innerHTML = '';
+    document.getElementById('hero-name2').innerHTML = '';
+    document.getElementById('hero-role').innerHTML = '';
+    document.getElementById('about-text').innerHTML = '';
+
+    // Hero Animations
+    const heroTl = gsap.timeline();
+    heroTl.to('#hero-eyebrow', { text: D.hero.eyebrow, duration: 1, ease: "power1.inOut" })
+          .to('#hero-name1', { text: D.hero.name1, duration: 1, ease: "power1.inOut" }, "-=0.5")
+          .to('#hero-name2', { text: D.hero.name2, duration: 1, ease: "power1.inOut" }, "-=0.5")
+          .to('#hero-role', { text: D.hero.role, duration: 2, ease: "power1.inOut" }, "-=0.5");
+
+    // Scroll Animations (Typewriter effect on scroll)
+    gsap.to('#about-text', {
+        scrollTrigger: {
+            trigger: '#about',
+            start: "top 70%", // يبدأ لما السيكشن يوصل 70% من الشاشة
+        },
+        text: D.about.text,
+        duration: 3,
+        ease: "none"
+    });
+
+    // Fade in for other elements
+    gsap.utils.toArray('.skill-pill, .project-row').forEach(el => {
+        gsap.from(el, {
+            scrollTrigger: { trigger: el, start: "top 85%" },
+            y: 50, opacity: 0, duration: 0.8, ease: "power3.out"
+        });
+    });
+}
+
+/* ── WEBGL BACKGROUND (Cyberpunk Wave) ── */
+function init3DBackground() {
+    const container = document.getElementById('webgl-container');
+    const scene = new THREE.Scene();
+    // لون الضباب لدمجه مع الخلفية
+    scene.fog = new THREE.FogExp2(0x050505, 0.03); 
+
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 30;
+    camera.position.y = 10;
+
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    container.appendChild(renderer.domElement);
+
+    // إنشاء شبكة من النقط (Points)
+    const geometry = new THREE.BufferGeometry();
+    const count = 3000;
+    const positions = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3);
+    const color = new THREE.Color(0x00ffcc);
+
+    for(let i = 0; i < count; i++) {
+        positions[i*3] = (Math.random() - 0.5) * 100; // x
+        positions[i*3+1] = (Math.random() - 0.5) * 10;  // y (initial flat)
+        positions[i*3+2] = (Math.random() - 0.5) * 100; // z
+        
+        colors[i*3] = color.r;
+        colors[i*3+1] = color.g;
+        colors[i*3+2] = color.b;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({ size: 0.2, vertexColors: true, transparent: true, opacity: 0.8 });
+    const points = new THREE.Points(geometry, material);
+    scene.add(points);
+
+    let mouseX = 0, mouseY = 0;
+    document.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX - window.innerWidth / 2) * 0.05;
+        mouseY = (e.clientY - window.innerHeight / 2) * 0.05;
+    });
+
+    const clock = new THREE.Clock();
+
+    function animate() {
+        requestAnimationFrame(animate);
+        const elapsedTime = clock.getElapsedTime();
+
+        // تأثير التموج (Wave Effect)
+        const positions = points.geometry.attributes.position.array;
+        for(let i = 0; i < count; i++) {
+            const x = positions[i*3];
+            const z = positions[i*3+2];
+            // حركة موجية معتمدة على الوقت ومكان النقطة
+            positions[i*3+1] = Math.sin(elapsedTime * 0.5 + x * 0.1) * 3 + Math.cos(elapsedTime * 0.3 + z * 0.1) * 3;
+        }
+        points.geometry.attributes.position.needsUpdate = true;
+
+        // دوران الكاميرا مع الماوس بنعومة
+        camera.position.x += (mouseX - camera.position.x) * 0.05;
+        camera.position.y += (-mouseY + 10 - camera.position.y) * 0.05;
+        camera.lookAt(scene.position);
+
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+}
+
+/* ── CUSTOM CURSOR ── */
+function initCursor() {
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
+    let ringX = mouseX, ringY = mouseY;
+
+    document.addEventListener('mousemove', e => {
+        mouseX = e.clientX; mouseY = e.clientY;
+        dot.style.transform = `translate(calc(${mouseX}px - 50%), calc(${mouseY}px - 50%))`;
+    });
+
+    // انيميشن ناعم للحلقة الخارجية
+    gsap.ticker.add(() => {
+        ringX += (mouseX - ringX) * 0.15;
+        ringY += (mouseY - ringY) * 0.15;
+        ring.style.transform = `translate(calc(${ringX}px - 50%), calc(${ringY}px - 50%))`;
+    });
+
+    // تأثير الـ Hover
+    document.querySelectorAll('.hover-link').forEach(el => {
+        el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+        el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+    });
+}
+
+/* ── PREMIUM DASHBOARD LOGIC ── */
+function toggleAdmin() {
+    document.getElementById('admin-panel').classList.toggle('open');
+}
+
+// تفعيل لوحة التحكم عبر الـ URL (مثال: ?admin=mazen2025)
+function checkAdminAccess() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if(urlParams.get('admin') === 'mazen2025') {
+        history.replaceState({}, document.title, window.location.pathname); // تنظيف الرابط
+        syncAdminFields();
+        setTimeout(toggleAdmin, 1000); // فتح اللوحة بعد تحميل الموقع
+    }
+}
+
+// تبديل التابات داخل اللوحة
+document.querySelectorAll('.adm-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.adm-tab, .tpanel').forEach(el => el.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+    });
 });
 
-function initEvents() {
-  document.querySelectorAll('.magnetic').forEach(btn => {
-    btn.addEventListener('mousemove', (e) => {
-      const r = btn.getBoundingClientRect();
-      gsap.to(btn, { x: (e.clientX - r.left - r.width/2)*0.4, y: (e.clientY - r.top - r.height/2)*0.4, duration: 0.3 });
-      follower.classList.add('hover');
-    });
-    btn.addEventListener('mouseleave', () => {
-      gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
-      follower.classList.remove('hover');
-    });
-  });
-  document.querySelectorAll('a, .skcard, .pcard').forEach(el => {
-    if(!el.classList.contains('magnetic')){
-      el.addEventListener('mouseenter', () => follower.classList.add('hover'));
-      el.addEventListener('mouseleave', () => follower.classList.remove('hover'));
-    }
-  });
+function syncAdminFields() {
+    document.getElementById('inp-eyebrow').value = D.hero.eyebrow;
+    document.getElementById('inp-name1').value = D.hero.name1;
+    document.getElementById('inp-name2').value = D.hero.name2;
+    document.getElementById('inp-role').value = D.hero.role;
+    document.getElementById('inp-about').value = D.about.text;
+    document.getElementById('inp-skills').value = D.skills.join(', ');
 }
 
-/* ── BULLETPROOF 3D ── */
-function init3D(){
-  const canvas = document.getElementById('hero-canvas');
-  const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
-  renderer.setSize(innerWidth, innerHeight);
-  
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(45, innerWidth/innerHeight, 0.1, 100);
-  camera.position.z = 15;
-
-  // Solid Glass Core
-  const coreGeo = new THREE.IcosahedronGeometry(4, 1);
-  const coreMat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, transmission: 0.9, opacity: 1, metalness: 0, roughness: 0.1, ior: 1.5, thickness: 2.0 });
-  const core = new THREE.Mesh(coreGeo, coreMat);
-  scene.add(core);
-
-  // Outer Wireframe (Safe and beautiful)
-  const wireGeo = new THREE.IcosahedronGeometry(4.3, 1);
-  const wireMat = new THREE.MeshBasicMaterial({ color: 0x00d4ff, wireframe: true, transparent: true, opacity: 0.15 });
-  const wire = new THREE.Mesh(wireGeo, wireMat);
-  scene.add(wire);
-
-  // Lights
-  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-  const dLight = new THREE.DirectionalLight(0x00d4ff, 2); dLight.position.set(5,5,5); scene.add(dLight);
-  const dLight2 = new THREE.DirectionalLight(0xffd060, 1); dLight2.position.set(-5,-5,-5); scene.add(dLight2);
-
-  let tx=0, ty=0;
-  document.addEventListener('mousemove',e=>{ tx=(e.clientX/innerWidth-0.5)*2; ty=-(e.clientY/innerHeight-0.5)*2; });
-
-  gsap.ticker.add(() => {
-    core.rotation.y += 0.003; core.rotation.x += 0.002;
-    wire.rotation.y -= 0.002; wire.rotation.z += 0.001;
-    core.position.x += (tx - core.position.x) * 0.05; core.position.y += (ty - core.position.y) * 0.05;
-    wire.position.x = core.position.x; wire.position.y = core.position.y;
-    renderer.render(scene, camera);
-  });
+function saveData() {
+    D.hero.eyebrow = document.getElementById('inp-eyebrow').value;
+    D.hero.name1 = document.getElementById('inp-name1').value;
+    D.hero.name2 = document.getElementById('inp-name2').value;
+    D.hero.role = document.getElementById('inp-role').value;
+    D.about.text = document.getElementById('inp-about').value;
+    D.skills = document.getElementById('inp-skills').value.split(',').map(s => s.trim());
+    
+    localStorage.setItem('mazen_v3_data', JSON.stringify(D));
+    
+    // إعادة بناء المحتوى والأنيميشن
+    renderContent();
+    initTypewriterAnimations();
+    toggleAdmin(); // قفل اللوحة
 }
 
-/* ── GSAP ── */
-gsap.registerPlugin(ScrollTrigger);
-function initGSAP() {
-  gsap.fromTo(".gs-hero", { y: 100, opacity: 0 }, { y: 0, opacity: 1, duration: 1.5, stagger: 0.2, ease: "power4.out" });
-  document.querySelectorAll('section').forEach(sec => {
-    gsap.fromTo(sec.querySelectorAll('.slabel, .stitle'), { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, stagger:0.1, scrollTrigger: { trigger: sec, start: "top 80%" } });
-    gsap.fromTo(sec.querySelectorAll('.gs-sec, .skcard, .pcard'), { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, stagger: 0.1, scrollTrigger: { trigger: sec, start: "top 75%" } });
-  });
-}
-
-/* ── RENDER & ADMIN ── */
-function renderAll(){
-  const h=D.hero, a=D.about;
-  document.getElementById('hero-name').textContent=h.name; document.getElementById('hero-eyebrow').textContent=h.eyebrow; document.getElementById('hero-role').innerHTML=h.role;
-  document.getElementById('about-p1').innerHTML=a.p1; document.getElementById('about-p2').innerHTML=a.p2;
-  document.getElementById('atags').innerHTML=a.tags.map(t=>`<span class="tag">${t}</span>`).join('');
-  document.getElementById('skills-grid').innerHTML=D.skills.map(s=>`<div class="skcard gs-sec"><div class="sk-icon">${s.icon}</div><div class="sk-name">${s.name}</div><p class="sk-desc">${s.desc}</p></div>`).join('');
-  document.getElementById('projects-grid').innerHTML=D.projects.map((p,i)=>`<div class="pcard gs-sec"><div class="pbody"><h3 class="ptitle">${p.title}</h3><p class="pdesc">${p.desc}</p><div class="ptech">${p.tech.map(t=>`<span class="ttag">${t}</span>`).join('')}</div><a href="${p.link}" class="p-link">عرض المشروع <span>↗</span></a></div><div class="p-visual">0${i+1}</div></div>`).join('');
-  document.getElementById('clinks').innerHTML=D.contacts.map(c=>`<a href="${c.href}" class="clink magnetic">${c.icon}</a>`).join('');
-}
-
-function checkAdmin(){
-  const p=new URLSearchParams(location.search);
-  for(const [key] of p){ if(key===PASS){ history.replaceState({},document.title,location.pathname); document.getElementById('adm-ov').classList.add('open'); syncFields(); return; } }
-}
-
-function syncFields(){
-  document.getElementById('eh-name').value=D.hero.name; document.getElementById('eh-eye').value=D.hero.eyebrow; document.getElementById('eh-role').value=D.hero.role;
-  document.getElementById('ea-p1').value=D.about.p1; document.getElementById('ea-p2').value=D.about.p2; document.getElementById('ea-tags').value=D.about.tags.join(',');
-  document.getElementById('skills-edit').innerHTML=D.skills.map((s,i)=>`<div class="pe-card"><input class="sk1" value="${s.icon}" style="width:50px"><input class="sk2" value="${s.name}"><textarea class="sk3">${s.desc}</textarea></div>`).join('');
-  document.getElementById('proj-edit').innerHTML=D.projects.map((p,i)=>`<div class="pe-card"><input class="pd1" value="${p.title}"><textarea class="pd2">${p.desc}</textarea><input class="pd3" value="${p.tech.join(',')}"><input class="pd4" value="${p.link}"></div>`).join('');
-}
-
-function save(tab){
-  if(tab==='hero'){ D.hero.name=document.getElementById('eh-name').value; D.hero.eyebrow=document.getElementById('eh-eye').value; D.hero.role=document.getElementById('eh-role').value; }
-  else if(tab==='about'){ D.about.p1=document.getElementById('ea-p1').value; D.about.p2=document.getElementById('ea-p2').value; D.about.tags=document.getElementById('ea-tags').value.split(','); }
-  else if(tab==='skills'){ D.skills=Array.from(document.querySelectorAll('#skills-edit .pe-card')).map(c=>({icon:c.querySelector('.sk1').value,name:c.querySelector('.sk2').value,desc:c.querySelector('.sk3').value})); }
-  else if(tab==='projects'){ D.projects=Array.from(document.querySelectorAll('#proj-edit .pe-card')).map(c=>({title:c.querySelector('.pd1').value,desc:c.querySelector('.pd2').value,tech:c.querySelector('.pd3').value.split(','),link:c.querySelector('.pd4').value})); }
-  localStorage.setItem('mazen_data', JSON.stringify(D));
-  renderAll(); alert('تم الحفظ بنجاح!');
-}
-
-document.querySelectorAll('.adm-navbtn').forEach(b=>b.addEventListener('click',()=>{ document.querySelectorAll('.adm-navbtn,.tpanel').forEach(el=>el.classList.remove('active')); b.classList.add('active'); document.getElementById('tab-'+b.dataset.tab).classList.add('active'); }));
-window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>50));
-
-/* ── SAFE START ── */
+/* ── INITIALIZATION ── */
 window.onload = () => {
-  try {
-    renderAll();
-    checkAdmin();
-    init3D();
-    initEvents();
-  } catch(e) { console.error("Error:", e); } 
-  finally {
-    setTimeout(() => {
-      document.getElementById('loader').classList.add('out');
-      setTimeout(()=>{ document.getElementById('loader').remove(); initGSAP(); }, 800);
-    }, 1000);
-  }
+    renderContent();
+    init3DBackground();
+    initCursor();
+    initTypewriterAnimations();
+    checkAdminAccess();
 };
 </script>
+
 </body>
 </html>
