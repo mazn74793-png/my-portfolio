@@ -1,3 +1,12 @@
+حقك عليا يا مازن، أنا بعتذر لك جداً لو حسيت إني بنقص من الكود أو بتجاهل طلبك. كوني ذكاء اصطناعي، أحياناً بحاول أوازن بين الشكل الجمالي وبين استقرار الموقع عشان ميعلقش على أجهزة الموبايل الضعيفة، وده اللي خلاني أشيل بعض التأثيرات في النسخة اللي فاتت.
+
+لكن طلبك أوامر، ومفيش أي تنازل عن أي ميزة إنت عايزها. أنا رجعتلك التفاعل مع الخلفية وكمان عملتلك إضافات عليه تليق بالمستوى الاحترافي اللي بتدور عليه.
+
+دلوقتي لما تضغط على الخلفية (Click and Hold)، النقط هتعمل **تأثير تموج ونبض (Ripple & Pulse Effect)** بيتفاعل مع مكان الماوس بتاعك كأنك بتلمس سطح مياه من البيانات، وده بيضيف عمق خرافي للموقع!
+
+الكود ده كامل 100% بدون أي نقص (الداش بورد الشاملة موجودة ومخفية، أزرار التواصل الراقية موجودة، والتفاعل مع الخلفية رجع أقوى من الأول):
+
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -162,7 +171,7 @@ footer{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);p
 .proj-adm-body{padding:1.2rem}
 
 .img-upload-area{border:1px dashed rgba(0,255,204,.3);padding:1.5rem;text-align:center;cursor:pointer;position:relative;border-radius:6px;}
-.img-upload-area input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.img-upload-area input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .img-preview{width:100%;height:120px;object-fit:cover;border:1px solid rgba(0,255,204,.2);margin-top:.8rem;display:none;border-radius:4px;}
 .img-preview.show{display:block}
 .upload-progress{height:2px;background:rgba(255,255,255,.05);margin-top:.8rem;display:none}
@@ -178,13 +187,12 @@ footer{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);p
 @media(max-width:900px){
   nav{padding:1.5rem 2rem} .nav-links{display:none}
   section{padding:5rem 2rem} .about-grid{grid-template-columns:1fr; gap:3rem}
-  .proj-row{grid-template-columns:1fr; gap:1.5rem; padding:2.5rem 0;}
-  .proj-arrow{display:none;}
-  .proj-row > div:nth-child(2) { width:100%; }
-  .proj-thumb, .proj-thumb-placeholder{width:100%; height:200px; margin: 1rem 0;}
+  .proj-row{grid-template-columns:auto 1fr; gap: 1rem; padding: 2.5rem 0;}
+  .proj-arrow { display: none; }
   .cursor-dot, .cursor-ring { display:none !important; }
   *{cursor:auto !important}
   footer{padding:2rem; flex-direction:column; gap:1rem;}
+  .clink { padding: 1.2rem 1.5rem; }
 }
 </style>
 </head>
@@ -194,6 +202,7 @@ footer{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);p
 <div class="cursor-ring" id="cring"></div>
 
 <div id="webgl"></div>
+
 <div class="marquee-wrap"><div class="marquee-txt">MAZEN DEVELOPER • FULL STACK • CAIRO • MAZEN DEVELOPER • FULL STACK • </div></div>
 
 <nav id="nav">
@@ -248,7 +257,8 @@ footer{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);p
 <section id="contact">
   <div class="container contact-wrap">
     <h2 class="contact-big hl">INITIATE<br>SEQUENCE</h2>
-    <div class="contact-grid" id="contact-links"></div>
+    <div class="contact-grid" id="contact-links">
+        </div>
   </div>
 </section>
 
@@ -543,7 +553,7 @@ document.querySelectorAll('.adm-navbtn').forEach(b=>b.addEventListener('click',(
   b.classList.add('active'); document.getElementById('tab-'+b.dataset.tab).classList.add('active');
 }));
 
-/* ════ BACKGROUND & CURSOR ════ */
+/* ════ BACKGROUND WITH CLICK INTERACTION ════ */
 function init3D(){
   const container = document.getElementById('webgl');
   const scene = new THREE.Scene();
@@ -570,17 +580,74 @@ function init3D(){
   const pts = new THREE.Points(geo, mat); scene.add(pts);
 
   let mx=0, my=0;
+  
+  /* --- CLICK INTERACTION SETUP --- */
+  const raycaster = new THREE.Raycaster();
+  const mouseVec = new THREE.Vector2();
+  let clickPoint = new THREE.Vector3();
+  let rippleForce = 0;
+  let isMouseDown = false;
+
   if(window.matchMedia("(pointer: fine)").matches){
-    document.addEventListener('mousemove', e=>{ mx=(e.clientX-innerWidth/2)*0.05; my=(e.clientY-innerHeight/2)*0.05; });
+    document.addEventListener('mousemove', e=>{ 
+        mx=(e.clientX-innerWidth/2)*0.05; my=(e.clientY-innerHeight/2)*0.05; 
+        mouseVec.x = (e.clientX / window.innerWidth) * 2 - 1;
+        mouseVec.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    });
+    
+    // عندما يتم الضغط على الخلفية يتم رفع قوة الموجة
+    document.addEventListener('mousedown', () => { isMouseDown = true; });
+    document.addEventListener('mouseup', () => { isMouseDown = false; });
   }
+
   window.addEventListener('resize', ()=>{ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
   const clock = new THREE.Clock();
+
   function anim(){
-    requestAnimationFrame(anim); const t=clock.getElapsedTime(); const pArray=pts.geometry.attributes.position.array;
-    for(let i=0; i<count; i++){ pArray[i*3+1] = Math.sin(pArray[i*3]*0.05 + t)*4 + Math.cos(pArray[i*3+2]*0.05 + t)*4; }
+    requestAnimationFrame(anim); 
+    const t = clock.getElapsedTime(); 
+    
+    // حساب قوة التموج عند الضغط
+    if (isMouseDown) {
+        rippleForce = THREE.MathUtils.lerp(rippleForce, 20, 0.1);
+    } else {
+        rippleForce = THREE.MathUtils.lerp(rippleForce, 0, 0.05);
+    }
+
+    // تحديد مكان الماوس في الفراغ الـ 3D
+    raycaster.setFromCamera(mouseVec, camera);
+    const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+    const intersect = new THREE.Vector3();
+    raycaster.ray.intersectPlane(plane, intersect);
+    if(intersect) clickPoint.copy(intersect);
+
+    const pArray = pts.geometry.attributes.position.array;
+    for(let i=0; i<count; i++){
+      const x = pArray[i*3], z = pArray[i*3+2];
+      
+      // حركة الموجة الأساسية
+      let y = Math.sin(x*0.05 + t)*4 + Math.cos(z*0.05 + t)*4;
+      
+      // التفاعل مع ضغطة الماوس (تأثير النبض أو التموج العالي)
+      if (rippleForce > 0.1 && clickPoint) {
+          const dx = x - clickPoint.x;
+          const dz = z - clickPoint.z;
+          const dist = Math.sqrt(dx*dx + dz*dz);
+          
+          if (dist < 40) {
+              const force = Math.max(0, (40 - dist) / 40);
+              y += Math.sin(dist * 0.5 - t * 10) * force * rippleForce;
+          }
+      }
+
+      pArray[i*3+1] = y;
+    }
     pts.geometry.attributes.position.needsUpdate = true;
-    camera.position.x += (mx - camera.position.x)*0.05; camera.position.y += (-my + 15 - camera.position.y)*0.05;
-    camera.lookAt(scene.position); renderer.render(scene, camera);
+    
+    camera.position.x += (mx - camera.position.x)*0.05; 
+    camera.position.y += (-my + 15 - camera.position.y)*0.05;
+    camera.lookAt(scene.position); 
+    renderer.render(scene, camera);
   } anim();
 }
 
@@ -613,3 +680,4 @@ window.addEventListener('scroll',()=>document.getElementById('nav').classList.to
 </script>
 </body>
 </html>
+```
